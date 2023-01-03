@@ -50,5 +50,5 @@ setuptools.setup(
         "Topic :: Scientific/Engineering",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
-    keywords="machine-learning, deep-learning, pytorch, vision, yolov6,yolox, object-detection, yolov7, detector, yolov5"
+    keywords="machine-learning, deep-learning, pytorch, vision, yolov6,yolox, object-detection, yolov7, detector, yolov5",
 )
