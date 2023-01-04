@@ -9,15 +9,13 @@ class YoloDetectionModel:
         self,
         model_path: Optional[str] = None,
         config_path: Optional[str] = None,
-        model: Optional[Any] = None,
         device: Optional[str] = None,
         confidence_threshold: float = 0.3,
         iou_threshold: float = 0.5,
         image_size: int = None,
-        load_at_init: bool = True,
     ):
         """
-        Init object detection/instance segmentation model.
+        Init object detection model.
         Args:
             model_path: str
                 Path for the instance segmentation model weight
@@ -31,20 +29,21 @@ class YoloDetectionModel:
                 All predictions with score < confidence_threshold will be discarded
             image_size: int
                 Inference input size.
-            load_at_init: bool
-                If True, automatically loads the model at initalization
         """
         self.model_path = model_path
         self.config_path = config_path
-        self.model = model
         self.device = device
         self.iou_threshold = iou_threshold
         self.confidence_threshold = confidence_threshold
         self.image_size = image_size
+        self.show = False
+        self.save = True
+        if self.save:
+            self.save_path = "output"
+            self.output_file_name = "prediction_visual"
 
         # automatically load model if load_at_init is True
-        if load_at_init:
-            self.load_model()
+        self.load_model()
 
         if self.device is None:
             self.device = "cuda" if torch.cuda.is_available() else "cpu"
