@@ -38,6 +38,7 @@ class YoloDetectionModel:
         self.image_size = image_size
         self.show = False
         self.save = True
+        self.yaml_file = "torchyolo/configs/yolov6/coco.yaml"
         if self.save:
             self.save_path = "output"
             self.output_file_name = "prediction_visual"

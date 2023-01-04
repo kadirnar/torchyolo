@@ -8,6 +8,7 @@ def model_prediction(config_file):
     model = AutoDetectionModel.from_pretrained(
         model_type=config.DETECTOR_CONFIG.MODEL_TYPE,
         model_path=config.DETECTOR_CONFIG.MODEL_PATH,
+        config_path=config.DETECTOR_CONFIG.CONFIG_PATH,
         device=config.DETECTOR_CONFIG.DEVICE,
         confidence_threshold=config.DETECTOR_CONFIG.CONFIDENCE_THRESHOLD,
         iou_threshold=config.DETECTOR_CONFIG.IOU_THRESHOLD,
