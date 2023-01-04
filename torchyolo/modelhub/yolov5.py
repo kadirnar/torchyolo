@@ -1,6 +1,9 @@
+import cv2
 import yolov5
-from modelhub.basemodel import YoloDetectionModel
 from sahi.prediction import ObjectPrediction, PredictionResult
+from sahi.utils.cv import visualize_object_predictions
+
+from torchyolo.modelhub.basemodel import YoloDetectionModel
 
 
 class Yolov5DetectionModel(YoloDetectionModel):
@@ -38,4 +41,14 @@ class Yolov5DetectionModel(YoloDetectionModel):
             object_prediction_list=object_prediction_list,
             image=image,
         )
-        return prediction_result.export_visuals(export_dir=self.save_path, file_name=self.output_file_name)
+        if self.save:
+            prediction_result.export_visuals(export_dir=self.save_path, file_name=self.output_file_name)
+
+        if self.show:
+            image = cv2.imread(image)
+            output_image = visualize_object_predictions(image=image, object_prediction_list=object_prediction_list)
+            cv2.imshow("Prediction", output_image["image"])
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+
+        return prediction_result
