@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Optional
 
 import numpy as np
 import torch
@@ -12,7 +12,7 @@ class YoloDetectionModel:
         device: Optional[str] = None,
         confidence_threshold: float = 0.3,
         iou_threshold: float = 0.5,
-        image_size: int = None,
+        image_size: int = 640,
     ):
         """
         Init object detection model.

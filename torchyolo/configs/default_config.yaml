@@ -1,0 +1,15 @@
+DETECTOR_CONFIG:
+  MODEL_TYPE: yolov5
+  MODEL_PATH: yolov5s.pt
+  DEVICE: cuda:0
+  CONFIDENCE_THRESHOLD: 0.25
+  IOU_THRESHOLD: 0.45
+  IMAGE_SIZE: 640
+  SHOW: False
+  SAVE: True
+
+FILE_CONFIG:
+  IMAGE_PATH: data/dog.jpg
+  SAVE_PATH: data/dog_out.jpg
+  OUTPUT_NAME: output
+  
