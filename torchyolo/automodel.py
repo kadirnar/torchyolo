@@ -2,6 +2,9 @@ from typing import Optional
 
 MODEL_TYPE_TO_MODEL_CLASS_NAME = {
     "yolov5": "Yolov5DetectionModel",
+    "yolov7": "Yolov7DetectionModel",
+    "yolox": "YoloxDetectionModel",
+    "yolov6": "Yolov6DetectionModel",
 }
 
 
@@ -9,6 +12,7 @@ class AutoDetectionModel:
     def from_pretrained(
         model_type: str,
         model_path: Optional[str] = None,
+        config_path: Optional[str] = None,
         device: Optional[str] = None,
         confidence_threshold: float = 0.3,
         iou_threshold: float = 0.5,
@@ -50,6 +54,7 @@ class AutoDetectionModel:
         )
         return DetectionModel(
             model_path=model_path,
+            config_path=config_path,
             device=device,
             confidence_threshold=confidence_threshold,
             iou_threshold=iou_threshold,
