@@ -40,11 +40,11 @@ class Colors:
         return tuple(int(h[1 + i : 1 + i + 2], 16) for i in (0, 2, 4))
 
 
-def tracker_vis(
-    track_id,
-    label,
+def object_vis(
     frame,
     tracker_box,
+    track_id,
+    label,
 ) -> np.ndarray:
     x, y, w, h = int(tracker_box[0]), int(tracker_box[1]), int(tracker_box[2]), int(tracker_box[3])
     MIN_FONT_SCALE = 0.7
@@ -66,6 +66,7 @@ def tracker_vis(
         thickness,
         cv2.LINE_AA,
     )
+    return frame
 
 
 def create_video_writer(video_path, output_path, fps=None) -> cv2.VideoWriter:
