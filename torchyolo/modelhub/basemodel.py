@@ -37,7 +37,10 @@ class YoloDetectionModel:
         self.confidence_threshold = confidence_threshold
         self.image_size = image_size
         self.show = False
-        self.save = False
+        self.save = True
+        if self.save:
+            self.save_path = "output"
+            self.output_file_name = "prediction_visual"
 
         # automatically load model if load_at_init is True
         self.load_model()

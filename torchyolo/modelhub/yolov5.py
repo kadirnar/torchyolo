@@ -1,6 +1,6 @@
-import cv2
 import yolov5
 from modelhub.basemodel import YoloDetectionModel
+from sahi.prediction import ObjectPrediction, PredictionResult
 
 
 class Yolov5DetectionModel(YoloDetectionModel):
@@ -12,7 +12,7 @@ class Yolov5DetectionModel(YoloDetectionModel):
 
     def predict(self, image):
         prediction = self.model(image, size=self.image_size)
-
+        object_prediction_list = []
         for _, image_predictions_in_xyxy_format in enumerate(prediction.xyxy):
             for pred in image_predictions_in_xyxy_format.cpu().detach().numpy():
                 x1, y1, x2, y2 = (
@@ -25,4 +25,17 @@ class Yolov5DetectionModel(YoloDetectionModel):
                 score = pred[4]
                 category_name = self.model.names[int(pred[5])]
                 category_id = pred[5]
-                labels = f"{category_name} {score:.2f}"
+
+                object_prediction = ObjectPrediction(
+                    bbox=bbox,
+                    category_id=int(category_id),
+                    score=score,
+                    category_name=category_name,
+                )
+                object_prediction_list.append(object_prediction)
+
+        prediction_result = PredictionResult(
+            object_prediction_list=object_prediction_list,
+            image=image,
+        )
+        return prediction_result.export_visuals(export_dir=self.save_path, file_name=self.output_file_name)
