@@ -1,9 +1,6 @@
 <div align="center">
-<h1>
-  TorchYolo: YOLO Series Object Detection Library
-</h1>
 <h4>
-  <img src="docs/torchyolo_logo.png" width="800"/>
+  <img src="docs/torchyolo_logo.jpg" width="800"/>
 </div>
 
 
