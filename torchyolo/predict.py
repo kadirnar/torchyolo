@@ -1,14 +1,23 @@
+from typing import Optional
+
 from torchyolo.automodel import AutoDetectionModel
 
 
 class YoloPredictor:
-    def __init__(self, model_type="yolov5", model_path="yolov5s.pt", device="cpu", image_size=640):
+    def __init__(
+        self,
+        model_type: str = "yolov5",
+        model_path: str = "yolov5s.pt",
+        device: str = "cpu",
+        image_size: int = 640,
+        config_path: Optional[str] = "configs.yolox.yolox_s",
+    ):
         self.model_type = model_type
         self.model_path = model_path
-        self.config_path = "torchyolo.configs.yolox.yolox_m"  # yolox_nano.py
+        self.config_path = config_path
         self.device = device
-        self.conf = 0.05
-        self.iou = 0.05
+        self.conf = 0.45
+        self.iou = 0.45
         self.image_size = image_size
         self.save = True
         self.show = False
@@ -35,6 +44,9 @@ class YoloPredictor:
 
 
 if __name__ == "__main__":
-    predictor = YoloPredictor(model_type="yolov5", model_path="yolov5n.pt", device="cuda:0", image_size=640)
+    predictor = YoloPredictor(
+        model_type="yolox", model_path="yolox_s.pth", config_path="configs.yolox.yolox_s", device="cpu", image_size=640
+    )
+
     image = "data/highway.jpg"
     result = predictor.predict(image)
