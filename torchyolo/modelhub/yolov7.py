@@ -13,7 +13,7 @@ class Yolov7DetectionModel(YoloDetectionModel):
         model.iou = self.iou_threshold
         self.model = model
 
-    def predict(self, image):
+    def predict(self, image, yaml_file=None):
         prediction = self.model(image, size=self.image_size)
         object_prediction_list = []
         for _, image_predictions_in_xyxy_format in enumerate(prediction.xyxy):

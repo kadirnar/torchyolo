@@ -12,5 +12,5 @@ class YoloxDetectionModel(YoloDetectionModel):
         model.show = self.show
         self.model = model
 
-    def predict(self, image):
+    def predict(self, image, yaml_file=None):
         self.model.predict(image_path=image, image_size=self.image_size)

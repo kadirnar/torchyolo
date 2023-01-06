@@ -27,8 +27,9 @@ predictor.save = True
 predictor.show = False
 image = "data/highway.jpg"
 result = predictor.predict(image)
+# Yolov6
+result = predictor.predict(image, class_names="coco.names")
 ```
-Note: You only need to make changes in the default_config.yaml file.
 
 # Contributing
 Before opening a PR:
@@ -40,11 +41,6 @@ Before opening a PR:
     ```bash
     bash script/code_format.sh
     ``` 
-
-### TODO
-- [ ] Add more models(YOLOV4, Scaled-YOLOv4, YOLOR)
-- [ ] Add Train, Export and Eval scripts
-- [ ] Add Benchmark Results
 
 ### Acknowledgement
 A part of the code is borrowed from [SAHI](https://github.com/obss/sahi). Many thanks for their wonderful works.

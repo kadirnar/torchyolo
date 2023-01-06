@@ -57,7 +57,7 @@ class YoloDetectionModel:
         """
         raise NotImplementedError()
 
-    def predict(self, image: np.ndarray):
+    def predict(self, image: np.ndarray, yaml_file: str = None):
         """
         This function should be implemented in a way that detection model
         should be initialized and set to self.model.
