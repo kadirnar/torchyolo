@@ -1,1 +1,3 @@
-__version__ = "0.1.2"
+from torchyolo.predict import YoloPredictor
+
+__version__ = "0.1.3"
