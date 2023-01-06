@@ -1,29 +1,40 @@
-from automodel import AutoDetectionModel
-
-from torchyolo.utils.config_utils import get_config
+from torchyolo.automodel import AutoDetectionModel
 
 
-def model_prediction(config_file):
-    config = get_config(config_file)
-    model = AutoDetectionModel.from_pretrained(
-        model_type=config.DETECTOR_CONFIG.MODEL_TYPE,
-        model_path=config.DETECTOR_CONFIG.MODEL_PATH,
-        config_path=config.DETECTOR_CONFIG.CONFIG_PATH,
-        device=config.DETECTOR_CONFIG.DEVICE,
-        confidence_threshold=config.DETECTOR_CONFIG.CONFIDENCE_THRESHOLD,
-        iou_threshold=config.DETECTOR_CONFIG.IOU_THRESHOLD,
-        image_size=config.DETECTOR_CONFIG.IMAGE_SIZE,
-    )
-    model.show = config.DETECTOR_CONFIG.SHOW
-    model.save = config.DETECTOR_CONFIG.SAVE
+class YoloPredictor:
+    def __init__(self, model_type="yolov5", model_path="yolov5s.pt", device="cpu", image_size=640):
+        self.model_type = model_type
+        self.model_path = model_path
+        self.config_path = "torchyolo.configs.yolox.yolox_m"  # yolox_nano.py
+        self.device = device
+        self.conf_thres = 0.25
+        self.iou_thres = 0.45
+        self.image_size = image_size
+        self.save = True
+        self.show = False
 
-    model.predict(image=config.FILE_CONFIG.IMAGE_PATH)
+        # Load Model
+        self.load_model()
+
+    def load_model(self):
+        model = AutoDetectionModel.from_pretrained(
+            model_type=self.model_type,
+            model_path=self.model_path,
+            config_path=self.config_path,
+            device=self.device,
+            confidence_threshold=self.conf_thres,
+            iou_threshold=self.iou_thres,
+            image_size=self.image_size,
+        )
+        model.save = self.save
+        model.show = self.show
+        self.model = model
+
+    def predict(self, image):
+        return self.model.predict(image)
 
 
 if __name__ == "__main__":
-    import argparse
-
-    args = argparse.ArgumentParser()
-    args.add_argument("--config_file", type=str, default="torchyolo/configs/default_config.yaml")
-    args = args.parse_args()
-    model_prediction(args.config_file)
+    predictor = YoloPredictor(model_type="yolov5", model_path="yolov5s.pt", device="cpu", image_size=640)
+    image = "data/highway.jpg"
+    result = predictor.predict(image)

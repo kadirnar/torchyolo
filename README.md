@@ -8,19 +8,25 @@
 
 The TorchYolo library aims to support all YOLO models(like YOLOv5, YOLOv6, YOLOv7, YOLOX, etc.) and provide a unified interface for training and inference. The library is based on PyTorch and is designed to be easy to use and extend.
 
-### Installation
-```bash
-git clone https://github.com/kadirnar/torchyolo
-cd torchyolo
-pip install -r requirements.txt
-```
-or 
+### Installation 
 ```bash
 pip install torchyolo
 ```
 ### Usage
 ```python
-python torchyolo/predict.py --config configs/default_config.yaml
+from torchyolo import YoloPredictor
+predictor = YoloPredictor(
+  model_type="yolov5", 
+  model_path="yolov5s.pt", 
+  device='cpu', 
+  image_size=640
+)
+predictor.conf_thres = 0.25
+predictor.iou_thres = 0.45
+predictor.save = True
+predictor.show = False
+image = "data/highway.jpg"
+result = predictor.predict(image)
 ```
 Note: You only need to make changes in the default_config.yaml file.
 
@@ -39,6 +45,9 @@ Before opening a PR:
 - [ ] Add more models(YOLOV4, Scaled-YOLOv4, YOLOR)
 - [ ] Add Train, Export and Eval scripts
 - [ ] Add Benchmark Results
+
+### Acknowledgement
+A part of the code is borrowed from [SAHI](https://github.com/obss/sahi). Many thanks for their wonderful works.
 
 ### Citation
 ```bibtex
@@ -68,13 +77,13 @@ Before opening a PR:
 ```bibtex
 @software{glenn_jocher_2020_4154370,
   author       = {Glenn Jocher and,Alex Stoken and,Jirka Borovec and,NanoCode012 and,ChristopherSTAN and,Liu Changyu and,Laughing and,tkianai and,Adam Hogan and,lorenzomammana and,yxNONG and,AlexWang1900 and,Laurentiu Diaconu and,Marc and,wanghaoyang0106 and,ml5ah and,Doug and,Francisco Ingham and,Frederik and,Guilhen and,Hatovix and,Jake Poznanski and,Jiacong Fang and,Lijun Yu 于力军 and,changyu98 and,Mingyu Wang and,Naman Gupta and,Osama Akhtar and,PetrDvoracek and,Prashant Rai},
-  title        = {{ultralytics/yolov5: v7.2 - Bug Fixes and 
+  title={{ultralytics/yolov5: v7.2 - Bug Fixes and 
                    Performance Improvements}},
-  month        = oct,
-  year         = 2020,
-  publisher    = {Zenodo},
-  version      = {v3.1},
-  doi          = {10.5281/zenodo.4154370},
-  url          = {https://doi.org/10.5281/zenodo.4154370}
+  month= oct,
+  year= 2020,
+  publisher= {Zenodo},
+  version= {v3.1},
+  doi= {10.5281/zenodo.4154370},
+  url= {https://doi.org/10.5281/zenodo.4154370}
 }
 ```
