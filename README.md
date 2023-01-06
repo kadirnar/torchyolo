@@ -1,6 +1,11 @@
 <div align="center">
 <h4>
   <img src="docs/torchyolo_logo.jpg" width="800"/>
+<div>
+    <a href="https://pepy.tech/project/torchyolo"><img src="https://pepy.tech/badge/torchyolo" alt="downloads"></a>
+    <a href="https://badge.fury.io/py/torchyolo"><img src="https://badge.fury.io/py/torchyolo.svg" alt="pypi version"></a>
+    <a href="https://huggingface.co/spaces/kadirnar/torchyolo"><img src="https://img.shields.io/badge/%20HuggingFace%20-Demo-blue.svg" alt="HuggingFace Spaces"></a>
+</div>
 </div>
 
 
