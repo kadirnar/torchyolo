@@ -3,7 +3,7 @@ from typing import Optional
 from torchyolo.automodel import AutoDetectionModel
 
 
-class YoloPredictor:
+class YoloHub:
     def __init__(
         self,
         model_type: str = "yolov5",
@@ -38,15 +38,13 @@ class YoloPredictor:
         model.save = self.save
         model.show = self.show
         self.model = model
+        return model
 
-    def predict(self, image, yaml_file=None):
+    def prediction(self, image, yaml_file=None):
         return self.model.predict(image, yaml_file=yaml_file)
 
 
 if __name__ == "__main__":
-    predictor = YoloPredictor(
-        model_type="yolox", model_path="yolox_s.pth", config_path="configs.yolox.yolox_s", device="cpu", image_size=640
-    )
-
+    model = YoloHub(model_type="yolov8", model_path="yolov8n.pt", device="cpu", image_size=640)
     image = "data/highway.jpg"
-    result = predictor.predict(image)
+    result = model.prediction(image)
