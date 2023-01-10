@@ -1,10 +1,10 @@
 easydict
 numpy
 opencv_python
-PyYAM
+PyYAML
 sahi
 torch
 yolov5
 yolov6detect
 yolov7detect
-yoloxdetect
+ultralytics
