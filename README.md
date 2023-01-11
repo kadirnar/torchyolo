@@ -19,8 +19,8 @@ pip install torchyolo
 ```
 ### Usage
 ```python
-from torchyolo import YoloPredictor
-predictor = YoloPredictor(
+from torchyolo import YoloHub
+predictor = YoloHub(
   model_type="yolov5", 
   model_path="yolov5s.pt", 
   device='cpu', 

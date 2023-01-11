@@ -21,6 +21,7 @@ class YoloHub:
         self.image_size = image_size
         self.save = True
         self.show = False
+        self.model = None
 
         # Load Model
         self.load_model()
@@ -45,6 +46,6 @@ class YoloHub:
 
 
 if __name__ == "__main__":
-    model = YoloHub(model_type="yolov8", model_path="yolov8n.pt", device="cpu", image_size=640)
+    model = YoloHub(model_type="yolov8", model_path="yolov8n.pt", device="cuda:0", image_size=640)
     image = "data/highway.jpg"
     result = model.prediction(image)
