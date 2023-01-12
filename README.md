@@ -17,7 +17,10 @@ The TorchYolo library aims to support all YOLO models(like YOLOv5, YOLOv6, YOLOv
 ```bash
 pip install torchyolo
 ```
-### Usage
+### Usage 
+
+### inference on image
+
 ```python
 from torchyolo import YoloHub
 predictor = YoloHub(
@@ -34,6 +37,33 @@ image = "data/highway.jpg"
 result = predictor.predict(image)
 # Yolov6
 result = predictor.predict(image, class_names="coco.names")
+```
+### inference of video
+
+```
+from torchyolo import YoloHub
+import cv2
+
+model = YoloHub(
+  model_type="yolov5", 
+  model_path="yolov5s.pt", 
+  device='cpu', 
+  image_size=640
+)
+
+cap = cv2.VideoCapture('your_video.mp4')
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+    results = model(frame)
+    #results.show()  #
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+    
+cap.release()
+cv2.destroyAllWindows()
 ```
 
 # Contributing
