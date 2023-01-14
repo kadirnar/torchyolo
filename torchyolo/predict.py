@@ -45,7 +45,10 @@ class YoloHub:
         return self.model.predict(image, yaml_file=yaml_file)
     
     def models_view(self):
-        from torchview import draw_graph
+        try:
+            from torchview import draw_graph
+        except:
+            raise ImportError("Please install torchview: pip install torchview")
 
         if self.model_type == "yolov5" or self.model_type == "yolov7":
             model_arch = self.model.model
@@ -64,6 +67,6 @@ class YoloHub:
         model_graph.visual_graph.view()
 
 if __name__ == "__main__":
-    model = YoloHub(model_type="yolov6", model_path="yolov6m.pt", device="cuda:0", image_size=640)
+    model = YoloHub(model_type="yolov7", model_path="yolov7.pt", device="cuda:0", image_size=640)
     image = "data/highway.jpg"
     result = model.models_view()
