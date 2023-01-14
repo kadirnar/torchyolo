@@ -43,9 +43,27 @@ class YoloHub:
 
     def prediction(self, image, yaml_file=None):
         return self.model.predict(image, yaml_file=yaml_file)
+    
+    def models_view(self):
+        from torchview import draw_graph
 
+        if self.model_type == "yolov5" or self.model_type == "yolov7":
+            model_arch = self.model.model
+        
+        elif self.model_type == "yolov8" or self.model_type == "yolox":
+            model_arch = self.model.model.model
+            
+        elif self.model_type == "yolov6":
+            model_arch = self.model.model.model.model
+            
+        model_graph = draw_graph(model_arch, 
+                                    input_size=(1, 3, 352, 352), 
+                                    expand_nested=True, 
+                                    depth=3,
+                                )
+        model_graph.visual_graph.view()
 
 if __name__ == "__main__":
-    model = YoloHub(model_type="yolov8", model_path="yolov8n.pt", device="cuda:0", image_size=640)
+    model = YoloHub(model_type="yolov6", model_path="yolov6m.pt", device="cuda:0", image_size=640)
     image = "data/highway.jpg"
-    result = model.prediction(image)
+    result = model.models_view()
