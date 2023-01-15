@@ -43,8 +43,8 @@ class YoloHub:
 
     def prediction(self, image, yaml_file=None):
         return self.model.predict(image, yaml_file=yaml_file)
-    
-    def view_model(self):
+
+    def view_model(self, file_format="pdf"):
         try:
             from torchview import draw_graph
         except:
@@ -52,23 +52,25 @@ class YoloHub:
 
         if self.model_type == "yolov5" or self.model_type == "yolov7":
             model_arch = self.model.model
-        
+
         elif self.model_type == "yolov8" or self.model_type == "yolox":
             model_arch = self.model.model.model
-            
+
         elif self.model_type == "yolov6":
             model_arch = self.model.model.model.model
 
-        model_graph = draw_graph(model_arch, 
-                                    input_size=(1, 3, 352, 352), 
-                                    expand_nested=True, 
-                                    depth=3,
-                                )
-        #model_graph.visual_graph.render(format='svg')
-        model_graph.visual_graph.view()
+        model_graph = draw_graph(
+            model_arch,
+            input_size=(1, 3, 352, 352),
+            expand_nested=True,
+            depth=3,
+        )
+
+        model_graph.visual_graph.render(format=file_format)
+        return model_graph
 
 
 if __name__ == "__main__":
     model = YoloHub(model_type="yolov6", model_path="yolov6n.pt", device="cuda:0", image_size=640)
     image = "data/highway.jpg"
-    result = model.view_model()
+    result = model.view_model(is_pdf=False, is_svg=True)
