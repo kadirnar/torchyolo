@@ -44,7 +44,7 @@ class YoloHub:
     def prediction(self, image, yaml_file=None):
         return self.model.predict(image, yaml_file=yaml_file)
     
-    def models_view(self):
+    def view_model(self):
         try:
             from torchview import draw_graph
         except:
@@ -58,15 +58,17 @@ class YoloHub:
             
         elif self.model_type == "yolov6":
             model_arch = self.model.model.model.model
-            
+
         model_graph = draw_graph(model_arch, 
                                     input_size=(1, 3, 352, 352), 
                                     expand_nested=True, 
                                     depth=3,
                                 )
+        #model_graph.visual_graph.render(format='svg')
         model_graph.visual_graph.view()
 
+
 if __name__ == "__main__":
-    model = YoloHub(model_type="yolov7", model_path="yolov7.pt", device="cuda:0", image_size=640)
+    model = YoloHub(model_type="yolov6", model_path="yolov6n.pt", device="cuda:0", image_size=640)
     image = "data/highway.jpg"
-    result = model.models_view()
+    result = model.view_model()
