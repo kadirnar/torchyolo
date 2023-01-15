@@ -8,7 +8,7 @@ from torchyolo.modelhub.basemodel import YoloDetectionModel
 
 class Yolov7DetectionModel(YoloDetectionModel):
     def load_model(self):
-        model = yolov7.load(self.model_path, device=self.device)
+        model = yolov7.load(self.model_path, device=self.device, trace=False)
         model.conf = self.confidence_threshold
         model.iou = self.iou_threshold
         self.model = model
