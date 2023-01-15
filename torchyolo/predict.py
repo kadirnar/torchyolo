@@ -61,7 +61,7 @@ class YoloHub:
 
         model_graph = draw_graph(
             model_arch,
-            input_size=(1, 3, 352, 352),
+            input_size=(1, 3, 384, 640),
             expand_nested=True,
             depth=3,
         )
@@ -71,6 +71,6 @@ class YoloHub:
 
 
 if __name__ == "__main__":
-    model = YoloHub(model_type="yolov6", model_path="yolov6n.pt", device="cuda:0", image_size=640)
+    model = YoloHub(model_type="yolov5", model_path="yolov5n.pt", device="cuda:0", image_size=640)
     image = "data/highway.jpg"
-    result = model.view_model(is_pdf=False, is_svg=True)
+    result = model.view_model(file_format="pdf")
