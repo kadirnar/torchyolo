@@ -17,7 +17,7 @@ The TorchYolo library aims to support all YOLO models(like YOLOv5, YOLOv6, YOLOv
 ```bash
 pip install torchyolo
 ```
-### Usage
+### Prediction
 ```python
 from torchyolo import YoloHub
 predictor = YoloHub(
@@ -32,9 +32,19 @@ predictor.save = True
 predictor.show = False
 image = "data/highway.jpg"
 result = predictor.predict(image)
-# Yolov6
-result = predictor.predict(image, class_names="coco.names")
 ```
+
+## Model Architecture
+```python
+from torchyolo import YoloHub
+
+model = YoloHub(
+  model_type="yolov8", 
+  model_path="yolov8n.pt", 
+  device="cuda:0", 
+  image_size=640)
+result = model.view_model(file_format="pdf")
+
 
 # Contributing
 Before opening a PR:
