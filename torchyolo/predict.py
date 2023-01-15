@@ -72,5 +72,4 @@ class YoloHub:
 
 if __name__ == "__main__":
     model = YoloHub(model_type="yolov5", model_path="yolov5n.pt", device="cuda:0", image_size=640)
-    image = "data/highway.jpg"
     result = model.view_model(file_format="pdf")
