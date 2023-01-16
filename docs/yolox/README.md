@@ -17,4 +17,4 @@ model = YoloHub(
   config_path="yolox_s",
   device="cuda:0", 
   image_size=640)
-result = model.view_model(file_format="pdf")
+result = model.view_model_architecture(file_format="pdf")

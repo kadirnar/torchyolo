@@ -17,41 +17,44 @@ class Yolov6DetectionModel(YoloDetectionModel):
         model.show_img = self.show
         self.model = model
 
-    def predict(self, image, yaml_file="torchyolo/configs/yolov6/coco.yaml"):
-        object_prediction_list = []
+    def predict(self, image, yaml_file="torchyolo/configs/yolov6/coco.yaml",tracker=False):
         predictions, class_names = self.model.predict(source=image, img_size=self.image_size, yaml=yaml_file)
-        for *xyxy, conf, cls in reversed(predictions.cpu().detach().numpy()):
-            x1, y1, x2, y2 = (
-                int(xyxy[0]),
-                int(xyxy[1]),
-                int(xyxy[2]),
-                int(xyxy[3]),
+        if tracker:
+            return predictions
+        else:
+            object_prediction_list = []
+            for *xyxy, conf, cls in reversed(predictions.cpu().detach().numpy()):
+                x1, y1, x2, y2 = (
+                    int(xyxy[0]),
+                    int(xyxy[1]),
+                    int(xyxy[2]),
+                    int(xyxy[3]),
+                )
+                bbox = [x1, y1, x2, y2]
+                score = conf
+                category_id = int(cls)
+                category_name = class_names[category_id]
+
+                object_prediction = ObjectPrediction(
+                    bbox=bbox,
+                    category_id=int(category_id),
+                    score=score,
+                    category_name=category_name,
+                )
+                object_prediction_list.append(object_prediction)
+
+            prediction_result = PredictionResult(
+                object_prediction_list=object_prediction_list,
+                image=image,
             )
-            bbox = [x1, y1, x2, y2]
-            score = conf
-            category_id = int(cls)
-            category_name = class_names[category_id]
+            if self.save:
+                prediction_result.export_visuals(export_dir=self.save_path, file_name=self.output_file_name)
 
-            object_prediction = ObjectPrediction(
-                bbox=bbox,
-                category_id=int(category_id),
-                score=score,
-                category_name=category_name,
-            )
-            object_prediction_list.append(object_prediction)
+            if self.show:
+                image = cv2.imread(image)
+                output_image = visualize_object_predictions(image=image, object_prediction_list=object_prediction_list)
+                cv2.imshow("Prediction", output_image["image"])
+                cv2.waitKey(0)
+                cv2.destroyAllWindows()
 
-        prediction_result = PredictionResult(
-            object_prediction_list=object_prediction_list,
-            image=image,
-        )
-        if self.save:
-            prediction_result.export_visuals(export_dir=self.save_path, file_name=self.output_file_name)
-
-        if self.show:
-            image = cv2.imread(image)
-            output_image = visualize_object_predictions(image=image, object_prediction_list=object_prediction_list)
-            cv2.imshow("Prediction", output_image["image"])
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
-
-        return prediction_result
+            return prediction_result
