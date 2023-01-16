@@ -41,10 +41,7 @@ class YoloHub:
         self.model = model
         return model
 
-    def prediction(self, image, yaml_file=None):
-        return self.model.predict(image, yaml_file=yaml_file)
-
-    def view_model(self, file_format="pdf"):
+    def view_model_architecture(self, file_format: str = "pdf"):
         try:
             from torchview import draw_graph
         except:
@@ -72,4 +69,4 @@ class YoloHub:
 
 if __name__ == "__main__":
     model = YoloHub(model_type="yolov5", model_path="yolov5n.pt", device="cuda:0", image_size=640)
-    result = model.view_model(file_format="pdf")
+    result = model.view_model_architecture(file_format="pdf")
