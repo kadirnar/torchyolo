@@ -17,7 +17,7 @@ class Yolov6DetectionModel(YoloDetectionModel):
         model.show_img = self.show
         self.model = model
 
-    def predict(self, image, yaml_file="torchyolo/configs/yolov6/coco.yaml",tracker=False):
+    def predict(self, image, yaml_file="torchyolo/configs/yolov6/coco.yaml", tracker=False):
         predictions, class_names = self.model.predict(source=image, img_size=self.image_size, yaml=yaml_file)
         if tracker:
             return predictions

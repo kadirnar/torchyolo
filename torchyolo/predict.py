@@ -67,6 +67,7 @@ class YoloHub:
         return model_graph
 
 
+
 if __name__ == "__main__":
     model = YoloHub(model_type="yolov5", model_path="yolov5n.pt", device="cuda:0", image_size=640)
-    result = model.view_model_architecture(file_format="pdf")
+    result = model.predict("test.mp4")
