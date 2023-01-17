@@ -1,11 +1,11 @@
 import cv2
 import yolov5
-from torchyolo.utils.dataset import LoadData, create_video_writer
+from tqdm import tqdm
+
 from torchyolo.modelhub.basemodel import YoloDetectionModel
+from torchyolo.utils.dataset import LoadData, create_video_writer
 from torchyolo.utils.object_vis import video_vis
 
-
-from tqdm import tqdm
 
 class Yolov5DetectionModel(YoloDetectionModel):
     def load_model(self):
@@ -14,11 +14,9 @@ class Yolov5DetectionModel(YoloDetectionModel):
         model.iou = self.iou_threshold
         self.model = model
 
-    def predict(self, image, yaml_file=None, save=False, show=False):
-        dataset = LoadData(image)
-        video_writer = create_video_writer(
-            video_path=image,
-            output_path='output')
+    def predict(self, input_path, yaml_file=None, save=False, show=False):
+        dataset = LoadData(input_path)
+        video_writer = create_video_writer(video_path=input_path, output_path="output")
         for img_src, img_path, vid_cap in tqdm(dataset):
             results = self.model(img_src, augment=False)
             for index, prediction in enumerate(results.pred):
@@ -33,8 +31,8 @@ class Yolov5DetectionModel(YoloDetectionModel):
                     score = pred[4]
                     category_name = self.model.names[int(pred[5])]
                     category_id = int(pred[5])
-                    label = f'{category_name} {score:.2f}'
-                     
+                    label = f"{category_name} {score:.2f}"
+
                 frame = video_vis(
                     bbox=bbox,
                     label=label,
@@ -43,10 +41,10 @@ class Yolov5DetectionModel(YoloDetectionModel):
                 )
                 if save:
                     video_writer.write(frame)
-                    
+
                 if show:
-                    cv2.imshow('frame', frame)
-                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                    cv2.imshow("frame", frame)
+                    if cv2.waitKey(1) & 0xFF == ord("q"):
                         break
-                    
+
         video_writer.release()
