@@ -1,0 +1,6 @@
+SORT_TRACK:
+  # The name of the sort
+  MAX_AGE: 1
+  # The maximum number of frames to keep alive a track without associated detections
+  MIN_HITS: 3
+  # The minimum number of associated detections before track initialization

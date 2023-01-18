@@ -1,0 +1,7 @@
+BYTE_TRACK:
+  # The name of the sort
+  TRACK_BUFFER: 25
+  # The buffer for the track
+  FRAME_RATE: 30
+  # The frame rate of the video
+  
