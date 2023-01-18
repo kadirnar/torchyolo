@@ -44,7 +44,7 @@ model = YoloHub(
   device="cuda:0", 
   image_size=640)
 result = model.view_model(file_format="pdf")
-
+```
 
 # Contributing
 Before opening a PR:
