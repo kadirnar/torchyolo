@@ -19,8 +19,6 @@ class YoloHub:
         self.conf = 0.45
         self.iou = 0.45
         self.image_size = image_size
-        self.save = True
-        self.show = False
         self.model = None
 
         # Load Model
@@ -36,8 +34,6 @@ class YoloHub:
             iou_threshold=self.iou,
             image_size=self.image_size,
         )
-        model.save = self.save
-        model.show = self.show
         self.model = model
         return model
 
@@ -66,7 +62,10 @@ class YoloHub:
         model_graph.visual_graph.render(format=file_format)
         return model_graph
 
+    def predict(self, image, yaml_file=None, save=False, show=False):
+        self.model.predict(image, yaml_file, save, show)
+
 
 if __name__ == "__main__":
     model = YoloHub(model_type="yolov5", model_path="yolov5n.pt", device="cuda:0", image_size=640)
-    result = model.view_model_architecture(file_format="pdf")
+    result = model.predict("../test.mp4", save=True, show=False)

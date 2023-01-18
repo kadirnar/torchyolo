@@ -36,8 +36,6 @@ class YoloDetectionModel:
         self.iou_threshold = iou_threshold
         self.confidence_threshold = confidence_threshold
         self.image_size = image_size
-        self.show = False
-        self.save = True
         self.yaml_file = "torchyolo/configs/yolov6/coco.yaml"
         if self.save:
             self.save_path = "output"

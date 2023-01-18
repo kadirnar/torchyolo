@@ -17,7 +17,7 @@ class Yolov7DetectionModel(YoloDetectionModel):
         prediction = self.model(image, size=self.image_size)
         if tracker:
             return prediction
-        else:     
+        else:
             object_prediction_list = []
             for _, image_predictions_in_xyxy_format in enumerate(prediction.xyxy):
                 for pred in image_predictions_in_xyxy_format.cpu().detach().numpy():
