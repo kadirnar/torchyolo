@@ -1,5 +1,3 @@
-from typing import Optional
-
 from torchyolo.automodel import AutoDetectionModel
 from torchyolo.utils.config_utils import get_config
 
@@ -62,5 +60,5 @@ class YoloHub:
 
 
 if __name__ == "__main__":
-    model = YoloHub(config_path="torchyolo/configs/tracker/default_config.yaml")
+    model = YoloHub(config_path="torchyolo/default_config.yaml")
     result = model.predict(tracker=True)

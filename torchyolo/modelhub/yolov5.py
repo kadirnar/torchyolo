@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import cv2
 import yolov5
 from tqdm import tqdm
@@ -43,9 +41,8 @@ class Yolov5DetectionModel:
         tracker_outputs = [None]
         dataset = LoadData(input_path)
         video_writer = create_video_writer(video_path=input_path, output_path="output")
-
         for img_src, img_path, vid_cap in tqdm(dataset):
-            results = self.model(img_src, augment=False)
+            results = self.model(img_src)
             for image_id, prediction in enumerate(results.pred):
                 if tracker:
                     tracker_outputs[image_id] = tracker_module.update(prediction.cpu(), img_src)

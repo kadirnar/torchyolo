@@ -9,7 +9,7 @@ TRACKER_CONFIG:
 
 DETECTOR_CONFIG:
   # The name of the detector
-  DETECTOR_TYPE: yolov5 # yolov7
+  DETECTOR_TYPE: yolov8 # yolov7
   # The threshold for the IOU score
   IOU_TH: 0.45
   # The threshold for the confidence score
@@ -17,12 +17,14 @@ DETECTOR_CONFIG:
   # The size of the image
   IMAGE_SIZE: 640
   # The path of the weight file
-  MODEL_PATH: yolov5n.pt
+  MODEL_PATH: yolov8s.pt
   # The device to run the detector
   DEVICE: cuda:0
   # F16 precision
   HALF: False
-  
+  # The path of the yolov6 label file
+  YOLOV6_YAML_FILE: torchyolo/configs/yolov6/coco.yaml
+  # The path of the yolovx config file
   YOLOX_CONFIG_PATH: configs.yolox.yolox_s
 
 DATA_CONFIG:

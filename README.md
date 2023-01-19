@@ -18,31 +18,59 @@ The TorchYolo library aims to support all YOLO models(like YOLOv5, YOLOv6, YOLOv
 pip install torchyolo
 ```
 ### Prediction
+First download the [default_config.yaml](https://github.com/kadirnar/torchyolo/blob/tracker/torchyolo/default_config.yaml) file.
+
 ```python
 from torchyolo import YoloHub
-predictor = YoloHub(
-  model_type="yolov5", 
-  model_path="yolov5s.pt", 
-  device='cpu', 
-  image_size=640
-)
-predictor.conf_thres = 0.25
-predictor.iou_thres = 0.45
-predictor.save = True
-predictor.show = False
-image = "data/highway.jpg"
-result = predictor.predict(image)
+
+model = YoloHub(config_path="torchyolo/default_config.yaml")
+result = model.predict(tracker=True)
+```
+
+### Configuration
+```yaml
+TRACKER_CONFIG:
+    # The name of the tracker
+    TRACKER_TYPE: NORFAIR_TRACK
+    # The path of the config file
+    CONFIG_PATH: torchyolo/configs/tracker/norfair_track.yaml
+    # The path of the model file
+    WEIGHT_PATH: osnet_x1_0_msmt17.pt
+
+
+DETECTOR_CONFIG:
+  # The name of the detector
+  DETECTOR_TYPE: yolov8 # yolov7
+  # The threshold for the IOU score
+  IOU_TH: 0.45
+  # The threshold for the confidence score
+  CONF_TH: 0.25
+  # The size of the image
+  IMAGE_SIZE: 640
+  # The path of the weight file
+  MODEL_PATH: yolov8s.pt
+  # The device to run the detector
+  DEVICE: cuda:0
+  # F16 precision
+  HALF: False
+
+
+DATA_CONFIG:
+  # The path of the input video
+  INPUT_PATH: ../test.mp4
+  # The path of the output video
+  OUTPUT_PATH: Results
+  # Save the video
+  SHOW: False 
+  # Show the video
+  SAVE: True
 ```
 
 ## Model Architecture
 ```python
 from torchyolo import YoloHub
 
-model = YoloHub(
-  model_type="yolov8", 
-  model_path="yolov8n.pt", 
-  device="cuda:0", 
-  image_size=640)
+model = YoloHub(config_path="torchyolo/default_config.yaml")
 result = model.view_model(file_format="pdf")
 ```
 
@@ -62,27 +90,11 @@ A part of the code is borrowed from [SAHI](https://github.com/obss/sahi). Many t
 
 ### Citation
 ```bibtex
-@article{li2022yolov6,
-  title={YOLOv6: A single-stage object detection framework for industrial applications},
-  author={Li, Chuyi and Li, Lulu and Jiang, Hongliang and Weng, Kaiheng and Geng, Yifei and Li, Liang and Ke, Zaidan and Li, Qingyuan and Cheng, Meng and Nie, Weiqiang and others},
-  journal={arXiv preprint arXiv:2209.02976},
-  year={2022}
-}
-```
-```bibtex
 @article{wang2022yolov7,
   title={{YOLOv7}: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors},
   author={Wang, Chien-Yao and Bochkovskiy, Alexey and Liao, Hong-Yuan Mark},
   journal={arXiv preprint arXiv:2207.02696},
   year={2022}
-}
-```
-```bibtex
- @article{yolox2021,
-  title={YOLOX: Exceeding YOLO Series in 2021},
-  author={Ge, Zheng and Liu, Songtao and Wang, Feng and Li, Zeming and Sun, Jian},
-  journal={arXiv preprint arXiv:2107.08430},
-  year={2021}
 }
 ```
 ```bibtex
@@ -96,5 +108,40 @@ A part of the code is borrowed from [SAHI](https://github.com/obss/sahi). Many t
   version= {v3.1},
   doi= {10.5281/zenodo.4154370},
   url= {https://doi.org/10.5281/zenodo.4154370}
+}
+```
+```bibtex
+@article{cao2022observation,
+  title={Observation-Centric SORT: Rethinking SORT for Robust Multi-Object Tracking},
+  author={Cao, Jinkun and Weng, Xinshuo and Khirodkar, Rawal and Pang, Jiangmiao and Kitani, Kris},
+  journal={arXiv preprint arXiv:2203.14360},
+  year={2022}
+}
+```
+```bibtex
+@article{zhang2022bytetrack,
+  title={ByteTrack: Multi-Object Tracking by Associating Every Detection Box},
+  author={Zhang, Yifu and Sun, Peize and Jiang, Yi and Yu, Dongdong and Weng, Fucheng and Yuan, Zehuan and Luo, Ping and Liu, Wenyu and Wang, Xinggang},
+  booktitle={Proceedings of the European Conference on Computer Vision (ECCV)},
+  year={2022}
+}
+```
+```bibtex
+@article{du2022strongsort,
+  title={Strongsort: Make deepsort great again},
+  author={Du, Yunhao and Song, Yang and Yang, Bo and Zhao, Yanyun},
+  journal={arXiv preprint arXiv:2202.13514},
+  year={2022}
+}
+```
+```bibtex
+@inproceedings{Bewley2016_sort,
+  author={Bewley, Alex and Ge, Zongyuan and Ott, Lionel and Ramos, Fabio and Upcroft, Ben},
+  booktitle={2016 IEEE International Conference on Image Processing (ICIP)},
+  title={Simple online and realtime tracking},
+  year={2016},
+  pages={3464-3468},
+  keywords={Benchmark testing;Complexity theory;Detectors;Kalman filters;Target tracking;Visualization;Computer Vision;Data Association;Detection;Multiple Object Tracking},
+  doi={10.1109/ICIP.2016.7533003}
 }
 ```
