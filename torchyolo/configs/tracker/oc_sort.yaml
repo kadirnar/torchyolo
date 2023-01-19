@@ -1,0 +1,18 @@
+OC_SORT:
+  # The name of the sort
+  CONF_THRESHOLD: 0.05 
+  # The threshold for the confidence score
+  IOU_THRESHOLD: 0.3
+  # The threshold for the IOU score
+  MAX_AGE: 30
+  # The maximum age of the track
+  MIN_HITS: 3
+  # The minimum number of hits for the track
+  DELTA_T: 3
+  # The time interval between two frames
+  ASSO_FUNC: "iou"  # giou, ciou, diou, ct_dist
+  # The association function
+  INERTIA: 0.2
+  # The inertia of the track
+  USE_BYTE: False
+  # Whether to use byte as the unit of the bounding box

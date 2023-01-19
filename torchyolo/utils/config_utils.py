@@ -41,3 +41,32 @@ def get_config(config_file: str = None) -> YamlParser:
     config = YamlParser(config_file=config_file)
     config.merge_from_file(config_file)
     return config
+
+
+def load_config(config_path: str):
+    config_path = config_path
+    config = get_config(config_path)
+    input_path = config.DATA_CONFIG.INPUT_PATH
+    output_path = config.DATA_CONFIG.OUTPUT_PATH
+    model_type = config.DETECTOR_CONFIG.DETECTOR_TYPE
+    model_path = config.DETECTOR_CONFIG.MODEL_PATH
+    device = config.DETECTOR_CONFIG.DEVICE
+    conf = config.DETECTOR_CONFIG.CONF_TH
+    iou = config.DETECTOR_CONFIG.IOU_TH
+    image_size = config.DETECTOR_CONFIG.IMAGE_SIZE
+    save = config.DATA_CONFIG.SAVE
+    show = config.DATA_CONFIG.SHOW
+
+    return {
+        "config_path": config_path,
+        "input_path": input_path,
+        "output_path": output_path,
+        "model_type": model_type,
+        "model_path": model_path,
+        "device": device,
+        "conf": conf,
+        "iou": iou,
+        "image_size": image_size,
+        "save": save,
+        "show": show,
+    }

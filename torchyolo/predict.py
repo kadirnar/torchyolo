@@ -1,38 +1,31 @@
-from typing import Optional
-
 from torchyolo.automodel import AutoDetectionModel
+from torchyolo.utils.config_utils import get_config
 
 
 class YoloHub:
-    def __init__(
-        self,
-        model_type: str = "yolov5",
-        model_path: str = "yolov5s.pt",
-        device: str = "cpu",
-        image_size: int = 640,
-        config_path: Optional[str] = "configs.yolox.yolox_s",
-    ):
-        self.model_type = model_type
-        self.model_path = model_path
+    def __init__(self, config_path: str):
+        self.load_config(config_path)
+
+    def load_config(self, config_path: str):
         self.config_path = config_path
-        self.device = device
-        self.conf = 0.45
-        self.iou = 0.45
-        self.image_size = image_size
-        self.model = None
+        config = get_config(config_path)
+        self.input_path = config.DATA_CONFIG.INPUT_PATH
+        self.output_path = config.DATA_CONFIG.OUTPUT_PATH
+        self.model_type = config.DETECTOR_CONFIG.DETECTOR_TYPE
+        self.model_path = config.DETECTOR_CONFIG.MODEL_PATH
+        self.device = config.DETECTOR_CONFIG.DEVICE
+        self.conf = config.DETECTOR_CONFIG.CONF_TH
+        self.iou = config.DETECTOR_CONFIG.IOU_TH
+        self.image_size = config.DETECTOR_CONFIG.IMAGE_SIZE
+        self.save = config.DATA_CONFIG.SAVE
+        self.show = config.DATA_CONFIG.SHOW
 
         # Load Model
         self.load_model()
 
     def load_model(self):
         model = AutoDetectionModel.from_pretrained(
-            model_type=self.model_type,
-            model_path=self.model_path,
             config_path=self.config_path,
-            device=self.device,
-            confidence_threshold=self.conf,
-            iou_threshold=self.iou,
-            image_size=self.image_size,
         )
         self.model = model
         return model
@@ -62,10 +55,10 @@ class YoloHub:
         model_graph.visual_graph.render(format=file_format)
         return model_graph
 
-    def predict(self, image, yaml_file=None, save=False, show=False):
-        self.model.predict(image, yaml_file, save, show)
+    def predict(self, tracker: bool = False):
+        return self.model.predict(tracker)
 
 
 if __name__ == "__main__":
-    model = YoloHub(model_type="yolov5", model_path="yolov5n.pt", device="cuda:0", image_size=640)
-    result = model.predict("../test.mp4", save=True, show=False)
+    model = YoloHub(config_path="torchyolo/default_config.yaml")
+    result = model.predict(tracker=True)

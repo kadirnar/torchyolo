@@ -1,0 +1,38 @@
+TRACKER_CONFIG:
+    # The name of the tracker
+    TRACKER_TYPE: NORFAIR_TRACK
+    # The path of the config file
+    CONFIG_PATH: torchyolo/configs/tracker/norfair_track.yaml
+    # The path of the model file
+    WEIGHT_PATH: osnet_x1_0_msmt17.pt
+
+
+DETECTOR_CONFIG:
+  # The name of the detector
+  DETECTOR_TYPE: yolov8 # yolov7
+  # The threshold for the IOU score
+  IOU_TH: 0.45
+  # The threshold for the confidence score
+  CONF_TH: 0.25
+  # The size of the image
+  IMAGE_SIZE: 640
+  # The path of the weight file
+  MODEL_PATH: yolov8s.pt
+  # The device to run the detector
+  DEVICE: cuda:0
+  # F16 precision
+  HALF: False
+  # The path of the yolov6 label file
+  YOLOV6_YAML_FILE: torchyolo/configs/yolov6/coco.yaml
+  # The path of the yolovx config file
+  YOLOX_CONFIG_PATH: configs.yolox.yolox_s
+
+DATA_CONFIG:
+  # The path of the input video
+  INPUT_PATH: ../test.mp4
+  # The path of the output video
+  OUTPUT_PATH: Results
+  # Save the video
+  SHOW: False 
+  # Show the video
+  SAVE: True
