@@ -18,7 +18,7 @@ The TorchYolo library aims to support all YOLO models(like YOLOv5, YOLOv6, YOLOv
 pip install torchyolo
 ```
 ### Prediction
-First download the [default_config.yaml](https://github.com/kadirnar/torchyolo/blob/tracker/torchyolo/default_config.yaml) file.
+First download the [default_config.yaml](https://github.com/kadirnar/torchyolo/blob/main/torchyolo/default_config.yaml) file.
 
 ```python
 from torchyolo import YoloHub
