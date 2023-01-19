@@ -45,13 +45,13 @@ class Yolov8DetectionModel:
 
         for img_src, img_path, vid_cap in tqdm(dataset):
             results = self.model.predict(img_src, imgsz=self.image_size)
-            for image_id, prediction in enumerate(results):
-                if tracker:
+            if tracker:
+                for image_id, prediction in enumerate(results):
                     boxes = prediction[:].boxes.xyxy
                     score = prediction[:].boxes.conf
                     category_id = prediction[:].boxes.cls
                     dets = torch.cat((boxes, score.unsqueeze(1), category_id.unsqueeze(1)), dim=1)
-                    tracker_outputs[image_id] = tracker_module.update(dets.cpu(), img_src)
+                    tracker_outputs[image_id] = tracker_module.update(dets, img_src)
                     for output in tracker_outputs[image_id]:
                         bbox, track_id, category_id, score = (
                             output[:4],
@@ -76,31 +76,32 @@ class Yolov8DetectionModel:
                                 cv2.imshow("frame", frame)
                                 if cv2.waitKey(1) & 0xFF == ord("q"):
                                     break
+            else:
 
-                else:
-                    for pred in prediction.cpu().detach().numpy():
-                        x1, y1, x2, y2 = (
-                            int(pred[0]),
-                            int(pred[1]),
-                            int(pred[2]),
-                            int(pred[3]),
-                        )
-                        bbox = [x1, y1, x2, y2]
-                        score = pred[4]
-                        category_name = self.model.names[int(pred[5])]
-                        category_id = int(pred[5])
-                        label = f"{category_name} {score:.2f}"
+                for image_id, prediction in enumerate(results[0].boxes.cpu().numpy()):
 
-                    frame = video_vis(
-                        bbox=bbox,
-                        label=label,
-                        frame=img_src,
-                        object_id=category_id,
+                    bbox, category_id, score = (
+                        prediction.xyxy,
+                        prediction.cls,
+                        prediction.conf,
                     )
-                    if self.save:
-                        video_writer.write(frame)
+                    category_name = self.model.model.names[int(category_id)]
+                    label = f"{category_name} {float(score):.2f}"
 
-                    if self.show:
-                        cv2.imshow("frame", frame)
-                        if cv2.waitKey(1) & 0xFF == ord("q"):
-                            break
+                    if self.save or self.show:
+                        frame = video_vis(
+                            bbox=bbox[0],
+                            label=label,
+                            frame=img_src,
+                            object_id=int(category_id),
+                        )
+                        if self.save:
+                            if self.input_path.endswith(".mp4"):
+                                video_writer.write(frame)
+                            else:
+                                cv2.imwrite("output.jpg", frame)
+
+                        if self.show:
+                            cv2.imshow("frame", frame)
+                            if cv2.waitKey(1) & 0xFF == ord("q"):
+                                break
