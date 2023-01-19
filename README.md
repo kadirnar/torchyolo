@@ -14,7 +14,7 @@
 
 ### Introduction
 
-The TorchYolo library aims to support all YOLO models(like YOLOv5, YOLOv6, YOLOv7, YOLOv8, YOLOX, etc.) and provide a unified interface for training and inference. The library is based on PyTorch and is designed to be easy to use and extend.
+The TorchYolo library aims to support YOLO models(like YOLOv5, YOLOv7, YOLOv8) and Track Algorithm(Sort, StrongSort, ByteTrack, OcSort and Norfair) and provide a unified interface for training and inference. The library is based on PyTorch and is designed to be easy to use and extend.
 
 ### Installation 
 ```bash
