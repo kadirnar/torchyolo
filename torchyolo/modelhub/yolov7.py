@@ -1,5 +1,4 @@
 import cv2
-import yolov7
 from tqdm import tqdm
 
 from torchyolo.tracker_zoo import load_tracker
@@ -28,10 +27,16 @@ class Yolov7DetectionModel:
         self.show = config.DATA_CONFIG.SHOW
 
     def load_model(self):
-        model = yolov7.load(self.model_path, device=self.device)
-        model.conf = self.conf
-        model.iou = self.iou
-        self.model = model
+        try:
+            import yolov7
+
+            model = yolov7.load(self.model_path, device=self.device)
+            model.conf = self.conf
+            model.iou = self.iou
+            self.model = model
+
+        except ImportError:
+            raise ImportError('Please run "pip install yolov7detect" ' "to install YOLOv7 first for YOLOv7 inference.")
 
     def predict(self, tracker=True):
         tracker_module = load_tracker(self.config_path)
