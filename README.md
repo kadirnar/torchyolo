@@ -14,14 +14,14 @@
 
 ### Introduction
 
-The TorchYolo library aims to support YOLO models(like YOLOv5, YOLOv7, YOLOv8) and Track Algorithm(Sort, StrongSort, ByteTrack, OcSort and Norfair) and provide a unified interface for training and inference. The library is based on PyTorch and is designed to be easy to use and extend.
+The TorchYolo library aims to support YOLO models(like YOLOv5, YOLOv7, YOLOv8) and Tracker Algorithm(Sort, StrongSort, ByteTrack, OcSort and Norfair) and provide a unified interface for training and inference. The library is based on PyTorch and is designed to be easy to use and extend.
 
 ### Installation 
 ```bash
 pip install torchyolo
 ```
-### Prediction
-First download the [default_config.yaml](https://github.com/kadirnar/torchyolo/blob/main/torchyolo/default_config.yaml) file.
+### Usage
+First download the [default_config.yaml](https://github.com/kadirnar/torchyolo/releases/download/v0.0.5/default_config.yaml) file.
 
 ```python
 from torchyolo import YoloHub
@@ -30,7 +30,7 @@ model = YoloHub(config_path="torchyolo/default_config.yaml")
 result = model.predict(tracker=True)
 ```
 
-### Configuration
+### Detect Configuration
 ```yaml
 TRACKER_CONFIG:
     # The name of the tracker
@@ -68,6 +68,18 @@ DATA_CONFIG:
   # Show the video
   SAVE: True
 ```
+
+### Tracker Config File
+
+ByteTrack: https://github.com/kadirnar/torchyolo/releases/download/v0.0.5/default_config.yaml
+
+OcSort: https://github.com/kadirnar/torchyolo/releases/download/v0.0.5/oc_sort.yaml
+
+StrongSort: https://github.com/kadirnar/torchyolo/releases/download/v0.0.5/strong_sort.yaml
+
+Norfair: https://github.com/kadirnar/torchyolo/releases/download/v0.0.5/norfair_track.yaml
+
+Sort: https://github.com/kadirnar/torchyolo/releases/download/v0.0.5/sort_track.yaml
 
 ## Model Architecture
 ```python
