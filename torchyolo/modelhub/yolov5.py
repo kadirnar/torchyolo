@@ -29,7 +29,7 @@ class Yolov5DetectionModel:
     def load_model(self):
         try:
             import yolov5
-            
+
             model = yolov5.load(self.model_path, device=self.device)
             model.conf = self.conf
             model.iou = self.iou

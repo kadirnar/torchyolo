@@ -20,7 +20,7 @@ def create_tracker(
     iou_th: Optional[str] = 0.05,
 ) -> object:
     if tracker_type == "OC_SORT":
-        try: 
+        try:
             from ocsort.ocsort import OCSort
 
             if tracker_config_path is None:
@@ -40,13 +40,12 @@ def create_tracker(
                 use_byte=config.OC_SORT.USE_BYTE,
             )
             return oc_sort
-        
+
         except ImportError:
             raise ImportError("Please install ocsort: pip install ocsort")
-        
 
     elif tracker_type == "BYTE_TRACK":
-        try:      
+        try:
             from bytetracker.byte_tracker import BYTETracker
 
             if tracker_config_path is None:
@@ -62,7 +61,7 @@ def create_tracker(
                 frame_rate=config.BYTE_TRACK.FRAME_RATE,
             )
             return byte_tracker
-        
+
         except ImportError:
             raise ImportError("Please install bytetracker: pip install bytetracker")
 
@@ -110,7 +109,7 @@ def create_tracker(
 
         except ImportError:
             raise ImportError("Please install sort: pip install sort-track")
-        
+
     elif tracker_type == "STRONG_SORT":
         try:
             from strongsort.strong_sort import StrongSORT
@@ -134,7 +133,7 @@ def create_tracker(
                 ema_alpha=config.STRONG_SORT.EMA_ALPHA,
             )
             return strong_sort
-        
+
         except ImportError:
             raise ImportError("Please install strongsort: pip install strongsort")
 
