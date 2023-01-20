@@ -1,7 +1,6 @@
 import cv2
 import torch
 from tqdm import tqdm
-from ultralytics import YOLO
 
 from torchyolo.tracker_zoo import load_tracker
 from torchyolo.utils.config_utils import get_config
@@ -29,10 +28,16 @@ class Yolov8DetectionModel:
         self.show = config.DATA_CONFIG.SHOW
 
     def load_model(self):
-        model = YOLO(self.model_path)
-        model.conf = self.conf
-        model.iou = self.iou
-        self.model = model
+        try:
+            from ultralytics import YOLO
+
+            model = YOLO(self.model_path)
+            model.conf = self.conf
+            model.iou = self.iou
+            self.model = model
+
+        except ImportError:
+            raise ImportError('Please run "pip install ultralytics" ' "to install YOLOv8 first for YOLOv8 inference.")
 
     def predict(self, tracker=True):
         tracker_module = load_tracker(self.config_path)

@@ -1,6 +1,9 @@
 <div align="center">
+<h2>
+  TorchYolo: YOLO Series Object Detection and Track Algorithm Library
+</h2>
 <h4>
-  <img src="docs/torchyolo_logo.jpg" width="800"/>
+    <img width="700" alt="teaser" src="https://github.com/kadirnar/TrackerHub/blob/main/docs/norfair_track/norfair_demo.gif">
 <div>
     <a href="https://pepy.tech/project/torchyolo"><img src="https://pepy.tech/badge/torchyolo" alt="downloads"></a>
     <a href="https://badge.fury.io/py/torchyolo"><img src="https://badge.fury.io/py/torchyolo.svg" alt="pypi version"></a>
@@ -11,7 +14,7 @@
 
 ### Introduction
 
-The TorchYolo library aims to support all YOLO models(like YOLOv5, YOLOv6, YOLOv7, YOLOv8, YOLOX, etc.) and provide a unified interface for training and inference. The library is based on PyTorch and is designed to be easy to use and extend.
+The TorchYolo library aims to support YOLO models(like YOLOv5, YOLOv7, YOLOv8) and Track Algorithm(Sort, StrongSort, ByteTrack, OcSort and Norfair) and provide a unified interface for training and inference. The library is based on PyTorch and is designed to be easy to use and extend.
 
 ### Installation 
 ```bash
