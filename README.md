@@ -26,32 +26,27 @@ First download the [default_config.yaml](https://github.com/kadirnar/torchyolo/r
 ```python
 from torchyolo import YoloHub
 
-model = YoloHub(config_path="torchyolo/default_config.yaml")
-result = model.predict(tracker=True)
+model = YoloHub(
+    config_path="default_config.yaml",
+    model_type="yolov8",
+    model_path="yolov8s.pt",
+)
+result = model.predict(
+    source="test.mp4", 
+    tracker_type="NORFAIR", 
+    tracker_config_path="norfair_track.yaml"
+)
 ```
 
 ### Detect Configuration
 ```yaml
-TRACKER_CONFIG:
-    # The name of the tracker
-    TRACKER_TYPE: NORFAIR_TRACK
-    # The path of the config file
-    CONFIG_PATH: torchyolo/configs/tracker/norfair_track.yaml
-    # The path of the model file
-    WEIGHT_PATH: osnet_x1_0_msmt17.pt
-
-
 DETECTOR_CONFIG:
-  # The name of the detector
-  DETECTOR_TYPE: yolov8 # yolov7
   # The threshold for the IOU score
   IOU_TH: 0.45
   # The threshold for the confidence score
   CONF_TH: 0.25
   # The size of the image
   IMAGE_SIZE: 640
-  # The path of the weight file
-  MODEL_PATH: yolov8s.pt
   # The device to run the detector
   DEVICE: cuda:0
   # F16 precision
@@ -59,8 +54,6 @@ DETECTOR_CONFIG:
 
 
 DATA_CONFIG:
-  # The path of the input video
-  INPUT_PATH: ../test.mp4
   # The path of the output video
   OUTPUT_PATH: Results
   # Save the video
