@@ -19,7 +19,7 @@ def create_tracker(
     conf_th: Optional[str] = 0.05,
     iou_th: Optional[str] = 0.05,
 ) -> object:
-    if tracker_type == "OC_SORT":
+    if tracker_type == "OCSORT":
         try:
             from ocsort.ocsort import OCSort
 
@@ -44,7 +44,7 @@ def create_tracker(
         except ImportError:
             raise ImportError("Please install ocsort: pip install ocsort")
 
-    elif tracker_type == "BYTE_TRACK":
+    elif tracker_type == "BYTETRACK":
         try:
             from bytetracker.byte_tracker import BYTETracker
 
@@ -65,7 +65,7 @@ def create_tracker(
         except ImportError:
             raise ImportError("Please install bytetracker: pip install bytetracker")
 
-    elif tracker_type == "NORFAIR_TRACK":
+    elif tracker_type == "NORFAIR":
         try:
             from norfair_tracker.norfair import NorFairTracker
 
@@ -90,7 +90,7 @@ def create_tracker(
         except ImportError:
             raise ImportError("Please install norfair: pip install norfair-tracker")
 
-    elif tracker_type == "SORT_TRACK":
+    elif tracker_type == "SORT":
         try:
             from sort.tracker import SortTracker
 
@@ -110,7 +110,7 @@ def create_tracker(
         except ImportError:
             raise ImportError("Please install sort: pip install sort-track")
 
-    elif tracker_type == "STRONG_SORT":
+    elif tracker_type == "STRONGSORT":
         try:
             from strongsort.strong_sort import StrongSORT
 
@@ -141,17 +141,17 @@ def create_tracker(
         raise ValueError(f"No such tracker: {tracker_type}")
 
 
-def load_tracker(config_path: str) -> object:
-    """
-    This function is used to track objects in a video using yolov5 and strong sort.
-    Args:
-        video_path: video path(str)
-    """
+def load_tracker(
+    config_path: str = None,
+    tracker_type: str = None,
+    tracker_weight_path: str = "osnet_x1_0_msmt17.pt",
+    tracker_config_path: str = None,
+):
     config = get_config(config_path)
     tracker_module = create_tracker(
-        tracker_type=config.TRACKER_CONFIG.TRACKER_TYPE,
-        tracker_weight_path=Path(config.TRACKER_CONFIG.WEIGHT_PATH),
-        tracker_config_path=config.TRACKER_CONFIG.CONFIG_PATH,
+        tracker_type=tracker_type,
+        tracker_weight_path=Path(tracker_weight_path),
+        tracker_config_path=tracker_config_path,
         device=config.DETECTOR_CONFIG.DEVICE,
         half=config.DETECTOR_CONFIG.HALF,
         conf_th=config.DETECTOR_CONFIG.CONF_TH,

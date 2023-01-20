@@ -1,34 +1,20 @@
 from torchyolo.automodel import AutoDetectionModel
-from torchyolo.utils.config_utils import get_config
 
 
 class YoloHub:
-    def __init__(self, config_path: str):
-        self.load_config(config_path)
-
-    def load_config(self, config_path: str):
+    def __init__(self, config_path: str = None, model_type: str = "yolov5", model_path: str = None):
         self.config_path = config_path
-        config = get_config(config_path)
-        self.input_path = config.DATA_CONFIG.INPUT_PATH
-        self.output_path = config.DATA_CONFIG.OUTPUT_PATH
-        self.model_type = config.DETECTOR_CONFIG.DETECTOR_TYPE
-        self.model_path = config.DETECTOR_CONFIG.MODEL_PATH
-        self.device = config.DETECTOR_CONFIG.DEVICE
-        self.conf = config.DETECTOR_CONFIG.CONF_TH
-        self.iou = config.DETECTOR_CONFIG.IOU_TH
-        self.image_size = config.DETECTOR_CONFIG.IMAGE_SIZE
-        self.save = config.DATA_CONFIG.SAVE
-        self.show = config.DATA_CONFIG.SHOW
-
-        # Load Model
+        self.model_type = model_type
+        self.model_path = model_path
         self.load_model()
 
     def load_model(self):
-        model = AutoDetectionModel.from_pretrained(
+        self.model = AutoDetectionModel.from_pretrained(
             config_path=self.config_path,
+            model_type=self.model_type,
         )
-        self.model = model
-        return model
+
+        return self.model
 
     def view_model_architecture(self, file_format: str = "pdf"):
         try:
@@ -55,10 +41,28 @@ class YoloHub:
         model_graph.visual_graph.render(format=file_format)
         return model_graph
 
-    def predict(self, tracker: bool = False):
-        return self.model.predict(tracker)
+    def predict(
+        self,
+        source: str = None,
+        tracker_type: str = None,
+        tracker_weight_path: str = None,
+        tracker_config_path: str = None,
+    ):
+        pred = self.model.predict(
+            source=source,
+            tracker_type=tracker_type,
+            tracker_weight_path=tracker_weight_path,
+            tracker_config_path=tracker_config_path,
+        )
+        return pred
 
 
 if __name__ == "__main__":
-    model = YoloHub(config_path="torchyolo/default_config.yaml")
-    result = model.predict(tracker=True)
+    model = YoloHub(
+        config_path="torchyolo/configs/default_config.yaml",
+        model_type="yolov8",
+        model_path="yolov8s.pt",
+    )
+    result = model.predict(
+        source="../test.mp4", tracker_type="NORFAIR", tracker_config_path="torchyolo/configs/tracker/norfair_track.yaml"
+    )
