@@ -61,8 +61,8 @@ class YoloHub:
 if __name__ == "__main__":
     model = YoloHub(
         config_path="torchyolo/configs/default_config.yaml",
-        model_type="yolov8",
-        model_path="kadirnar/yolov8m-v8.0",
+        model_type="yolov6",
+        model_path="yolov6s.pt",
     )
     result = model.predict(
         source="../test.mp4", tracker_type="NORFAIR", tracker_config_path="torchyolo/configs/tracker/norfair_track.yaml"

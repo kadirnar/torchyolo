@@ -28,7 +28,7 @@ setuptools.setup(
     version=get_version(),
     author="kadirnar",
     license="GPL-3.0",
-    description="PyTorch implementation of YOLOv5, YOLOv6, YOLOv7, YOLOX",
+    description="PyTorch implementation of YOLOv5, YOLOv6, YOLOv7, YOLOv8",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     url="https://github.com/kadirnar/torchyolo",

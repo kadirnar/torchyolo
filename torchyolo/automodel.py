@@ -1,6 +1,7 @@
 MODEL_TYPE_TO_MODEL_CLASS_NAME = {
     "yolov5": "Yolov5DetectionModel",
     "yolov7": "Yolov7DetectionModel",
+    "yolov6": "Yolov6DetectionModel",
     "yolov8": "Yolov8DetectionModel",
 }
 
