@@ -51,15 +51,21 @@ DETECTOR_CONFIG:
   DEVICE: cuda:0
   # F16 precision
   HALF: False
-
+  # The path of the yolov6 label file
+  YOLOV6_YAML_FILE: torchyolo/configs/yolov6/coco.yaml
+  # The path of the yolovx config file
+  YOLOX_CONFIG_PATH: configs.yolox.yolox_s
+  # The path of the Hugging Face model
+  HUGGING_FACE_MODEL: False 
 
 DATA_CONFIG:
   # The path of the output video
-  OUTPUT_PATH: Results
+  OUTPUT_PATH: output.mp4
   # Save the video
   SHOW: False 
   # Show the video
   SAVE: True
+
 ```
 
 ### Tracker Config File

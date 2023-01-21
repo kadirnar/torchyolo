@@ -5,16 +5,17 @@ from tqdm import tqdm
 from torchyolo.tracker.tracker_zoo import load_tracker
 from torchyolo.utils.config_utils import get_config
 from torchyolo.utils.dataset import LoadData, create_video_writer
+from torchyolo.utils.download import attempt_download_from_hub
 from torchyolo.utils.object_vis import video_vis
 
-from torchyolo.utils.download import attempt_download_from_hub
+
 class Yolov8DetectionModel:
     def __init__(
         self,
         config_path: str,
         model_path: str = "yolov8s.pt",
     ):
-    
+
         self.model_path = model_path
         self.load_config(config_path)
         self.load_model()
@@ -34,15 +35,15 @@ class Yolov8DetectionModel:
     def load_model(self):
         try:
             from ultralytics import YOLO
-            
+
             if self.hf_model:
                 hf_model_path = attempt_download_from_hub(self.model_path)
                 model = YOLO(hf_model_path)
                 model.conf = self.conf
                 model.iou = self.iou
-                self.model = model  
-                 
-            else:                
+                self.model = model
+
+            else:
                 model = YOLO(self.model_path)
                 model.conf = self.conf
                 model.iou = self.iou

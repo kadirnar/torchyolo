@@ -13,7 +13,7 @@ class Yolov7DetectionModel:
         config_path: str,
         model_path: str = "yolov7.pt",
     ):
-    
+
         self.model_path = model_path
         self.load_config(config_path)
         self.load_model()

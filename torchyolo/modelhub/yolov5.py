@@ -9,11 +9,11 @@ from torchyolo.utils.object_vis import video_vis
 
 class Yolov5DetectionModel:
     def __init__(
-       self,
+        self,
         config_path: str,
         model_path: str = "yolov5n.pt",
     ):
-    
+
         self.model_path = model_path
         self.load_config(config_path)
         self.load_model()

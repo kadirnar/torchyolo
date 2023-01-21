@@ -6,11 +6,7 @@ MODEL_TYPE_TO_MODEL_CLASS_NAME = {
 
 
 class AutoDetectionModel:
-    def from_pretrained(
-        config_path: str,
-        model_type: str = "yolov5",
-        model_path: str = 'yolov5s.pt'
-    ):
+    def from_pretrained(config_path: str, model_type: str = "yolov5", model_path: str = "yolov5s.pt"):
 
         model_class_name = MODEL_TYPE_TO_MODEL_CLASS_NAME[model_type]
         DetectionModel = getattr(
