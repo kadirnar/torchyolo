@@ -16,7 +16,7 @@ DETECTOR_CONFIG:
 
 DATA_CONFIG:
   # The path of the output video
-  OUTPUT_PATH: Results
+  OUTPUT_PATH: output.mp4
   # Save the video
   SHOW: False 
   # Show the video
