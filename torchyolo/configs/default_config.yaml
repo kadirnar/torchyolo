@@ -13,6 +13,8 @@ DETECTOR_CONFIG:
   YOLOV6_YAML_FILE: torchyolo/configs/yolov6/coco.yaml
   # The path of the yolovx config file
   YOLOX_CONFIG_PATH: configs.yolox.yolox_s
+  # The path of the Hugging Face model
+  HUGGING_FACE_MODEL: False 
 
 DATA_CONFIG:
   # The path of the output video

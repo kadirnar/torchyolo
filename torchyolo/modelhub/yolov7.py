@@ -8,7 +8,13 @@ from torchyolo.utils.object_vis import video_vis
 
 
 class Yolov7DetectionModel:
-    def __init__(self, config_path: str):
+    def __init__(
+        self,
+        config_path: str,
+        model_path: str = "yolov7.pt",
+    ):
+    
+        self.model_path = model_path
         self.load_config(config_path)
         self.load_model()
 
@@ -22,12 +28,13 @@ class Yolov7DetectionModel:
         self.image_size = config.DETECTOR_CONFIG.IMAGE_SIZE
         self.save = config.DATA_CONFIG.SAVE
         self.show = config.DATA_CONFIG.SHOW
+        self.hf_model = config.DETECTOR_CONFIG.HUGGING_FACE_MODEL
 
-    def load_model(self, model_path: str = "yolov7.pt"):
+    def load_model(self):
         try:
             import yolov7
 
-            model = yolov7.load(model_path, device=self.device)
+            model = yolov7.load(self.model_path, device=self.device, hf_model=self.hf_model)
             model.conf = self.conf
             model.iou = self.iou
             self.model = model
