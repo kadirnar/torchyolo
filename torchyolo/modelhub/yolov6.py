@@ -1,5 +1,3 @@
-import cv2
-import torch
 from tqdm import tqdm
 from yolov6.core.inferer import Inferer
 from yolov6.helpers import check_img_size
@@ -43,8 +41,7 @@ class Yolov6DetectionModel:
             model = YOLOV6(self.model_path, device=self.device, hf_model=self.hf_model)
             model.conf = self.conf
             model.iou = self.iou
-            model.torchyolo = True
-            self.model = model
+            self.model = model.model
 
         except ImportError:
             raise ImportError('Please run "pip install yolov6detect" ' "to install YOLOv6 first for YOLOv6 inference.")
@@ -83,7 +80,7 @@ class Yolov6DetectionModel:
                 img = img[None]
                 # expand for batch dim
 
-            pred_results = self.model.model(img)
+            pred_results = self.model(img)
             det = non_max_suppression(pred_results, self.conf, self.iou, classes=None, agnostic=False, max_det=1000)[0]
 
             det[:, :4] = Inferer.rescale(img.shape[2:], det[:, :4], img_src.shape).round()
@@ -110,3 +107,14 @@ class Yolov6DetectionModel:
                             )
                             if self.save:
                                 video_writer.write(frame)
+            else:
+                for *xyxy, conf, cls in det:
+                    label = f"{COCO_CLASSES[int(cls)]} {float(conf):.2f}"
+                    frame = video_vis(
+                        bbox=xyxy,
+                        label=label,
+                        frame=img_src,
+                        object_id=int(cls),
+                    )
+                    if self.save:
+                        video_writer.write(frame)

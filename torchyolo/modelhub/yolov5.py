@@ -118,8 +118,3 @@ class Yolov5DetectionModel:
                     )
                     if self.save:
                         video_writer.write(frame)
-
-                    if self.show:
-                        cv2.imshow("frame", frame)
-                        if cv2.waitKey(1) & 0xFF == ord("q"):
-                            break

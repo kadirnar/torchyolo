@@ -62,7 +62,7 @@ if __name__ == "__main__":
     model = YoloHub(
         config_path="torchyolo/configs/default_config.yaml",
         model_type="yolov6",
-        model_path="yolov6s.pt",
+        model_path="yolov6l.pt",
     )
     result = model.predict(
         source="../test.mp4", tracker_type="NORFAIR", tracker_config_path="torchyolo/configs/tracker/norfair_track.yaml"

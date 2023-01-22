@@ -4,7 +4,7 @@ DETECTOR_CONFIG:
   # The threshold for the confidence score
   CONF_TH: 0.25
   # The size of the image
-  IMAGE_SIZE: 640
+  IMAGE_SIZE: 1280
   # The device to run the detector
   DEVICE: cuda:0
   # F16 precision

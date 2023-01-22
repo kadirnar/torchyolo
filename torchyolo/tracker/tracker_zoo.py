@@ -137,9 +137,6 @@ def create_tracker(
         except ImportError:
             raise ImportError("Please install strongsort: pip install strongsort")
 
-    else:
-        raise ValueError(f"No such tracker: {tracker_type}")
-
 
 def load_tracker(
     config_path: str = None,

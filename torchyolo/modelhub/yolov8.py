@@ -135,8 +135,3 @@ class Yolov8DetectionModel:
                                 video_writer.write(frame)
                             else:
                                 cv2.imwrite("output.jpg", frame)
-
-                        if self.show:
-                            cv2.imshow("frame", frame)
-                            if cv2.waitKey(1) & 0xFF == ord("q"):
-                                break
