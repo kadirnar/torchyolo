@@ -14,14 +14,14 @@
 
 ### Introduction
 
-The TorchYolo library aims to support YOLO models(like YOLOv5, YOLOv7, YOLOv8) and Tracker Algorithm(Sort, StrongSort, ByteTrack, OcSort and Norfair) and provide a unified interface for training and inference. The library is based on PyTorch and is designed to be easy to use and extend.
+The TorchYolo library aims to support YOLO models(like YOLOv5, YOLOv6, YOLOv7, YOLOv8) and Tracker Algorithm(Sort, StrongSort, ByteTrack, OcSort and Norfair) and provide a unified interface for training and inference. The library is based on PyTorch and is designed to be easy to use and extend.
 
 ### Installation 
 ```bash
 pip install torchyolo
 ```
 ### Usage
-First download the [default_config.yaml](https://github.com/kadirnar/torchyolo/releases/download/v0.0.5/default_config.yaml) file.
+First download the [default_config.yaml](https://github.com/kadirnar/torchyolo/releases/download/v1.0.0/default_config.yaml) file.
 
 ```python
 from torchyolo import YoloHub
@@ -33,7 +33,7 @@ model = YoloHub(
 )
 result = model.predict(
     source="test.mp4", 
-    tracker_type="NORFAIR", 
+    tracker_type="NORFAIR", # or False
     tracker_config_path="norfair_track.yaml"
 )
 ```
@@ -108,6 +108,14 @@ A part of the code is borrowed from [SAHI](https://github.com/obss/sahi). Many t
   title={{YOLOv7}: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors},
   author={Wang, Chien-Yao and Bochkovskiy, Alexey and Liao, Hong-Yuan Mark},
   journal={arXiv preprint arXiv:2207.02696},
+  year={2022}
+}
+```
+```bibtex
+@article{li2022yolov6,
+  title={YOLOv6: A single-stage object detection framework for industrial applications},
+  author={Li, Chuyi and Li, Lulu and Jiang, Hongliang and Weng, Kaiheng and Geng, Yifei and Li, Liang and Ke, Zaidan and Li, Qingyuan and Cheng, Meng and Nie, Weiqiang and others},
+  journal={arXiv preprint arXiv:2209.02976},
   year={2022}
 }
 ```
