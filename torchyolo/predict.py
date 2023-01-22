@@ -65,5 +65,5 @@ if __name__ == "__main__":
         model_path="yolov6l.pt",
     )
     result = model.predict(
-        source="../test.mp4", tracker_type="NORFAIR", tracker_config_path="torchyolo/configs/tracker/norfair_track.yaml"
+        source="1.mp4", tracker_type="NORFAIR", tracker_config_path="torchyolo/configs/tracker/norfair_track.yaml"
     )

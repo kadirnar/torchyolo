@@ -2,9 +2,9 @@ from tqdm import tqdm
 from yolov6.core.inferer import Inferer
 from yolov6.helpers import check_img_size
 from yolov6.utils.nms import non_max_suppression
-from yolox.data.datasets import COCO_CLASSES
 
 from torchyolo.tracker.tracker_zoo import load_tracker
+from torchyolo.utils.coco_classes import COCO_CLASSES
 from torchyolo.utils.config_utils import get_config
 from torchyolo.utils.dataset import LoadData, create_video_writer
 from torchyolo.utils.object_vis import video_vis
