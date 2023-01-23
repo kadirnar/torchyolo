@@ -130,8 +130,8 @@ class Yolov8DetectionModel:
                             frame=img_src,
                             object_id=int(category_id),
                         )
-                        if self.save:
-                            if self.input_path.endswith(".mp4"):
-                                video_writer.write(frame)
-                            else:
-                                cv2.imwrite("output.jpg", frame)
+                    if self.save:
+                        if source.endswith(".mp4"):
+                            video_writer.write(frame)
+                        else:
+                            cv2.imwrite("output.jpg", frame)

@@ -1,3 +1,4 @@
+import cv2
 from tqdm import tqdm
 from yolov6.core.inferer import Inferer
 from yolov6.helpers import check_img_size
@@ -117,4 +118,7 @@ class Yolov6DetectionModel:
                         object_id=int(cls),
                     )
                     if self.save:
-                        video_writer.write(frame)
+                        if source.endswith(".mp4"):
+                            video_writer.write(frame)
+                        else:
+                            cv2.imwrite("output.jpg", frame)

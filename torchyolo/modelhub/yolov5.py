@@ -117,4 +117,7 @@ class Yolov5DetectionModel:
                         object_id=category_id,
                     )
                     if self.save:
-                        video_writer.write(frame)
+                        if source.endswith(".mp4"):
+                            video_writer.write(frame)
+                        else:
+                            cv2.imwrite("output.jpg", frame)
