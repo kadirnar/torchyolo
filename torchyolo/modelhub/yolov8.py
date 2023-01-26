@@ -86,7 +86,7 @@ class Yolov8DetectionModel:
                     score = prediction[:].boxes.conf
                     category_id = prediction[:].boxes.cls
                     dets = torch.cat((boxes, score.unsqueeze(1), category_id.unsqueeze(1)), dim=1)
-                    tracker_outputs[image_id] = tracker_module.update(dets, img_src)
+                    tracker_outputs[image_id] = tracker_module.update(dets.cpu(), img_src)
                     for output in tracker_outputs[image_id]:
                         bbox, track_id, category_id, score = (
                             output[:4],
@@ -104,13 +104,9 @@ class Yolov8DetectionModel:
                                 frame=img_src,
                                 object_id=int(category_id),
                             )
-                            if self.save:
-                                video_writer.write(frame)
+                if self.save:
+                    video_writer.write(frame)
 
-                            if self.show:
-                                cv2.imshow("frame", frame)
-                                if cv2.waitKey(1) & 0xFF == ord("q"):
-                                    break
             else:
 
                 for image_id, prediction in enumerate(results[0].boxes.cpu().numpy()):

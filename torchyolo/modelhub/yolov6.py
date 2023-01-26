@@ -106,8 +106,8 @@ class Yolov6DetectionModel:
                                 frame=img_src,
                                 object_id=int(category_id),
                             )
-                            if self.save:
-                                video_writer.write(frame)
+                if self.save:
+                    video_writer.write(frame)
             else:
                 for *xyxy, conf, cls in det:
                     label = f"{COCO_CLASSES[int(cls)]} {float(conf):.2f}"

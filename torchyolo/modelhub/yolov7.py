@@ -90,13 +90,8 @@ class Yolov7DetectionModel:
                                 frame=img_src,
                                 object_id=int(category_id),
                             )
-                            if self.save:
-                                video_writer.write(frame)
-
-                            if self.show:
-                                cv2.imshow("frame", frame)
-                                if cv2.waitKey(1) & 0xFF == ord("q"):
-                                    break
+                    if self.save:
+                        video_writer.write(frame)
 
                 else:
                     for pred in prediction.cpu().detach().numpy():

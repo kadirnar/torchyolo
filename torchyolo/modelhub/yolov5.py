@@ -82,19 +82,14 @@ class Yolov5DetectionModel:
                         label = f"Id:{track_id} {category_name} {float(score):.2f}"
 
                         if self.save or self.show:
-                            frame = video_vis(
+                            img_src = video_vis(
                                 bbox=bbox,
                                 label=label,
                                 frame=img_src,
                                 object_id=int(category_id),
                             )
-                            if self.save:
-                                video_writer.write(frame)
-
-                            if self.show:
-                                cv2.imshow("frame", frame)
-                                if cv2.waitKey(1) & 0xFF == ord("q"):
-                                    break
+                    if self.save:
+                        video_writer.write(img_src)
 
                 else:
                     for pred in prediction.cpu().detach().numpy():
