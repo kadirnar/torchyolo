@@ -167,3 +167,50 @@ A part of the code is borrowed from [SAHI](https://github.com/obss/sahi). Many t
   doi={10.1109/ICIP.2016.7533003}
 }
 ```
+```bibtex
+
+@article{torchreid,
+    title={Torchreid: A Library for Deep Learning Person Re-Identification in Pytorch},
+    author={Zhou, Kaiyang and Xiang, Tao},
+    journal={arXiv preprint arXiv:1910.10093},
+    year={2019}
+} 
+```
+```bibtex
+@inproceedings{Bewley2016_sort,
+  author={Bewley, Alex and Ge, Zongyuan and Ott, Lionel and Ramos, Fabio and Upcroft, Ben},
+  booktitle={2016 IEEE International Conference on Image Processing (ICIP)},
+  title={Simple online and realtime tracking},
+  year={2016},
+  pages={3464-3468},
+  keywords={Benchmark testing;Complexity theory;Detectors;Kalman filters;Target tracking;Visualization;Computer Vision;Data Association;Detection;Multiple Object Tracking},
+  doi={10.1109/ICIP.2016.7533003}
+}
+```
+```bibtex
+@inproceedings{zhou2019osnet,
+    title={Omni-Scale Feature Learning for Person Re-Identification},
+    author={Zhou, Kaiyang and Yang, Yongxin and Cavallaro, Andrea and Xiang, Tao},
+    booktitle={ICCV},
+    year={2019}
+}
+```
+```bibtex
+@inproceedings{Bewley2016_sort,
+  author={Bewley, Alex and Ge, Zongyuan and Ott, Lionel and Ramos, Fabio and Upcroft, Ben},
+  booktitle={2016 IEEE International Conference on Image Processing (ICIP)},
+  title={Simple online and realtime tracking},
+  year={2016},
+  pages={3464-3468},
+  keywords={Benchmark testing;Complexity theory;Detectors;Kalman filters;Target tracking;Visualization;Computer Vision;Data Association;Detection;Multiple Object Tracking},
+  doi={10.1109/ICIP.2016.7533003}
+}
+```
+```bibtex
+@article{zhou2021osnet,
+    title={Learning Generalisable Omni-Scale Representations for Person Re-Identification},
+    author={Zhou, Kaiyang and Yang, Yongxin and Cavallaro, Andrea and Xiang, Tao},
+    journal={TPAMI},
+    year={2021}
+}
+```
