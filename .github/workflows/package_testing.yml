@@ -53,7 +53,33 @@ jobs:
       - name: Install latest TorchYolo package
         run: >
           pip install --upgrade --force-reinstall torchyolo
+
       - name: Test with unittest
         run: |
           pip install pytest
           python -m unittest
+
+      - name: Install yolov5(7.0.7)
+        run: >
+          pip install yolov5==7.0.7
+
+      - name: Install yolov6
+        run: >
+          pip install yolov6detect
+
+      - name: Install yolov7
+        run: >
+          pip install yolov7detect
+
+      - name: Install yolov8
+        run: >
+          pip install ultralytics
+
+      - name: Unittest for Yolov5/6/7/8 models with TorchYolo package (CPU)
+        run: |
+          python -m unittest
+      
+      - name: Test TorchYolo CLI
+        run: |
+          torchyolo --version
+          torchyolo predict --config_path torchyolo/configs/default_config.yaml --model_type yolov5 --model_path yolov5s.pt --source data/highway.jpg

@@ -20,7 +20,7 @@ The TorchYolo library aims to support YOLO models(like YOLOv5, YOLOv6, YOLOv7, Y
 ```bash
 pip install torchyolo
 ```
-### Usage
+### Use From Python
 First download the [default_config.yaml](https://github.com/kadirnar/torchyolo/releases/download/v1.0.0/default_config.yaml) file.
 
 ```python
@@ -36,6 +36,11 @@ result = model.predict(
     tracker_type="NORFAIR", # or False
     tracker_config_path="norfair_track.yaml"
 )
+```
+### Use From Command Line
+```bash
+torchyolo predict --config_path torchyolo/configs/default_config.yaml --model_type yolov5 --model_path yolov5s.pt
+torchyolo predict --config_path torchyolo/configs/default_config.yaml --model_type yolov5 --model_path yolov5s.pt --tracker_config_path norfair.yaml
 ```
 
 ### Detect Configuration
