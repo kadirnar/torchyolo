@@ -1,9 +1,5 @@
 name: Package Testing
 
-on:
-  schedule:
-    - cron: '0 0 * * *' # Runs at 00:00 UTC every day
-
 jobs:
   build:
     runs-on: ubuntu-latest
