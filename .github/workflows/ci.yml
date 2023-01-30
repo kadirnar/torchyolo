@@ -62,5 +62,5 @@ jobs:
         
       - name: Test TorchYolo CLI
         run: |
-          torchyolo --version
+          torchyolo version
           torchyolo predict --config_path torchyolo/configs/default_config.yaml --model_type yolov5 --model_path yolov5s.pt --source data/highway.jpg
