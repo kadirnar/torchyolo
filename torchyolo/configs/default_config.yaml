@@ -6,7 +6,7 @@ DETECTOR_CONFIG:
   # The size of the image
   IMAGE_SIZE: 1280
   # The device to run the detector
-  DEVICE: cuda:0
+  DEVICE: cpu
   # F16 precision
   HALF: False
   # The path of the yolov6 label file
