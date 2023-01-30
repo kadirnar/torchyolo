@@ -97,7 +97,7 @@ result = model.view_model(file_format="pdf")
 Before opening a PR:
   - Install required development packages:
     ```bash
-    pip install -r requirements-dev.txt
+    pip install -e ."[dev]"
     ```
   - Reformat the code with black and isort:
     ```bash

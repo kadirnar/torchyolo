@@ -23,6 +23,29 @@ def get_version():
         return re.search(r'^__version__ = [\'"]([^\'"]*)[\'"]', f.read(), re.M).group(1)
 
 
+_DEV_REQUIREMENTS = [
+    "black==21.7b0",
+    "flake8==3.9.2",
+    "isort==5.9.2",
+    "click==8.0.4",
+    "importlib-metadata>=1.1.0,<4.3;python_version<'3.8'",
+]
+
+_TEST_REQUIREMENTS = [
+    "yolov5",
+    "yolov6detect",
+    "yolov7detect",
+    "ultralytics",
+    "sort_track",
+    "strongsort",
+    "ocsort",
+    "bytetracker",
+    "norfair_tracker",
+]
+
+extras = {"tests": _TEST_REQUIREMENTS, "dev": _DEV_REQUIREMENTS}
+
+
 setuptools.setup(
     name="torchyolo",
     version=get_version(),
@@ -33,6 +56,8 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/kadirnar/torchyolo",
     packages=setuptools.find_packages(exclude=["tests"]),
+    extras_require=extras,
+    include_package_data=True,
     python_requires=">=3.6",
     install_requires=get_requirements(),
     classifiers=[
