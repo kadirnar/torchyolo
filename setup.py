@@ -4,14 +4,6 @@ import re
 
 import setuptools
 
-_DEV_REQUIREMENTS = [
-    "black==21.7b0",
-    "flake8==3.9.2",
-    "isort==5.9.2",
-    "click==8.0.4",
-    "importlib-metadata>=1.1.0,<4.3;python_version<'3.8'",
-]
-
 
 def get_long_description():
     base_dir = os.path.abspath(os.path.dirname(__file__))

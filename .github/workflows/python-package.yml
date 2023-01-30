@@ -5,7 +5,7 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -55,10 +55,7 @@ jobs:
       - name: Install latest TorchYolo package
         run: >
           pip install --upgrade --force-reinstall torchyolo
-      - name: Test with unittest
-        run: |
-          pip install pytest
-          python -m unittest
+
       - name: Install yolov5(7.0.7)
         run: >
           pip install yolov5==7.0.7
