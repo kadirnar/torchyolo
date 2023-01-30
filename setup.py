@@ -4,6 +4,14 @@ import re
 
 import setuptools
 
+_DEV_REQUIREMENTS = [
+    "black==21.7b0",
+    "flake8==3.9.2",
+    "isort==5.9.2",
+    "click==8.0.4",
+    "importlib-metadata>=1.1.0,<4.3;python_version<'3.8'",
+]
+
 
 def get_long_description():
     base_dir = os.path.abspath(os.path.dirname(__file__))
@@ -32,7 +40,7 @@ setuptools.setup(
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     url="https://github.com/kadirnar/torchyolo",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(exclude=["tests"]),
     python_requires=">=3.6",
     install_requires=get_requirements(),
     classifiers=[
@@ -51,4 +59,8 @@ setuptools.setup(
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
     keywords="machine-learning, deep-learning, pytorch, vision, yolov6,yolox, object-detection, yolov7, detector, yolov5",
+    entry_points={'console_scripts': [
+        "torchyolo=torchyolo.cli:app",
+        ],
+                  }
 )

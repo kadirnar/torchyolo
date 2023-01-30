@@ -1,6 +1,5 @@
 from torchyolo.automodel import AutoDetectionModel
 
-
 class YoloHub:
     def __init__(self, config_path: str = None, model_type: str = "yolov5", model_path: str = None):
         self.config_path = config_path
