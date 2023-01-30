@@ -100,14 +100,14 @@ class Yolov6DetectionModel:
                         label = f"Id:{track_id} {category_name} {float(score):.2f}"
 
                         if self.save or self.show:
-                            frame = video_vis(
+                            img_src = video_vis(
                                 bbox=bbox,
                                 label=label,
                                 frame=img_src,
                                 object_id=int(category_id),
                             )
                 if self.save:
-                    video_writer.write(frame)
+                    video_writer.write(img_src)
             else:
                 for *xyxy, conf, cls in det:
                     label = f"{COCO_CLASSES[int(cls)]} {float(conf):.2f}"

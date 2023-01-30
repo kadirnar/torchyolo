@@ -61,12 +61,12 @@ class YoloHub:
 if __name__ == "__main__":
     model = YoloHub(
         config_path="torchyolo/configs/default_config.yaml",
-        model_type="yolov8",
-        model_path="yolov8s.pt",
+        model_type="yolov6",
+        model_path="yolov6l.pt",
     )
     result = model.predict(
         source="../test.mp4",
-        tracker_type="SORT",
-        tracker_config_path="torchyolo/configs/tracker/sort_track.yaml",
+        tracker_type="NORFAIR",
+        tracker_config_path="torchyolo/configs/tracker/norfair_track.yaml",
         tracker_weight_path="osnet_x1_0_imagenet.pt",
     )
