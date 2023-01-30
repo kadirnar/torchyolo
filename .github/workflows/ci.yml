@@ -1,19 +1,18 @@
-name: Package Testing
+name: Tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [main]
   pull_request:
-    branches: [ master ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: [3.7, 3.8, 3.9, "3.10"]
+        python-version: ['3.8', '3.9', '3.10']
       fail-fast: false
 
     steps:
@@ -52,27 +51,19 @@ jobs:
       - name: Update pip
         run: python -m pip install --upgrade pip
 
-      - name: Install latest TorchYolo package
+      - name: Install dependencies
         run: >
-          pip install --upgrade --force-reinstall torchyolo
-
-      - name: Install yolov5(7.0.7)
-        run: >
-          pip install yolov5==7.0.7
-      - name: Install yolov6
-        run: >
-          pip install yolov6detect
-      - name: Install yolov7
-        run: >
-          pip install yolov7detect
-      - name: Install yolov8
-        run: >
-          pip install ultralytics
+          pip install -e .[dev]
+      - name: Lint with isort and black
+        run: |
+          pip install black==21.7b0 
+          pip install isort==5.9.2
+          bash scripts/code_format.sh
+          
       - name: Unittest for Yolov5/6/7/8 models with TorchYolo package (CPU)
         run: |
           pip install yolov5
-        
-      
+          
       - name: Test TorchYolo CLI
         run: |
           torchyolo version
