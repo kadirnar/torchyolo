@@ -59,8 +59,9 @@ setuptools.setup(
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
     keywords="machine-learning, deep-learning, pytorch, vision, yolov6,yolox, object-detection, yolov7, detector, yolov5",
-    entry_points={'console_scripts': [
-        "torchyolo=torchyolo.cli:app",
+    entry_points={
+        "console_scripts": [
+            "torchyolo=torchyolo.cli:app",
         ],
-                  }
+    },
 )
