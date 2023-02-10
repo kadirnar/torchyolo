@@ -23,24 +23,52 @@ pip install torchyolo
 ### Use From Python
 First download the [default_config.yaml](https://github.com/kadirnar/torchyolo/releases/download/v1.0.0/default_config.yaml) file.
 
+##### Object Prediction
 ```python
 from torchyolo import YoloHub
 
 model = YoloHub(
-    config_path="default_config.yaml",
-    model_type="yolov8",
-    model_path="yolov8s.pt",
+    config_path=config_path,
+    model_type=model_type,
+    model_path=model_path,
 )
-result = model.predict(
-    source="test.mp4", 
-    tracker_type="NORFAIR", # or False
-    tracker_config_path="norfair_track.yaml"
+
+result = model.predict(source=source)
+```
+
+##### Object Tracking
+```python
+
+model = YoloHub(
+    config_path=config_path,
+    model_type=model_type,
+    model_path=model_path,
 )
+
+if tracker_type == "STRONGSORT":
+    result = model.tracker_predict(
+        source=source,
+        tracker_type=tracker_type,
+        tracker_weight_path=tracker_weight_path,
+        tracker_config_path=tracker_config_path,
+    )
+else:
+    result = model.tracker_predict(
+        source=source,
+        tracker_type=tracker_type,
+        tracker_config_path=tracker_config_path,
+    )
+
 ```
 ### Use From Command Line
 ```bash
-torchyolo predict --config_path torchyolo/configs/default_config.yaml --model_type yolov5 --model_path yolov5s.pt
-torchyolo predict --config_path torchyolo/configs/default_config.yaml --model_type yolov5 --model_path yolov5s.pt --tracker_config_path norfair.yaml
+torchyolo predict --config_path torchyolo/configs/default_config.yaml \
+                  --model_type yolov5 \
+                  --model_path yolov5s.pt --source test.mp4
+
+torchyolo tracker --config_path torchyolo/configs/default_config.yaml \
+                  --model_type yolov5 --model_path yolov5s.pt \
+                  --tracker_config_path norfair.yaml
 ```
 
 ### Detect Configuration

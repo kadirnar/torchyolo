@@ -37,7 +37,7 @@ class Yolov8DetectionModel:
         except ImportError:
             raise ImportError('Please run "pip install ultralytics" ' "to install YOLOv8 first for YOLOv8 inference.")
 
-    def predict(self, source:str):
+    def predict(self, source: str):
         dataset = LoadData(source)
         video_writer = create_video_writer(video_path=source, output_path=self.output_path)
 
@@ -64,7 +64,7 @@ class Yolov8DetectionModel:
                         video_writer.write(frame)
                     else:
                         cv2.imwrite("output.jpg", frame)
-    
+
     def tracker_predict(
         self,
         source: str = None,

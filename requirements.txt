@@ -7,10 +7,3 @@ PyYAML==6.0
 torch==1.12.1
 torchview==0.2.4
 tqdm==4.64.1
-
-# Tracker Libraries
-#sort_track==0.0.8
-#strongsort==0.2.1
-#ocsort==0.0.2
-#bytetracker==0.2.5
-#norfair_tracker==0.0.4
