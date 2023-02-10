@@ -1,5 +1,3 @@
-from fire import Fire
-
 from torchyolo.automodel import AutoDetectionModel
 
 
@@ -44,44 +42,69 @@ class YoloHub:
         model_graph.visual_graph.render(format=file_format)
         return model_graph
 
-    def predict(
+    def predict(self, source: str):
+        prediction = self.model.predict(source=source)
+        return prediction
+
+    def tracker_predict(
         self,
         source: str = None,
         tracker_type: str = None,
         tracker_weight_path: str = None,
         tracker_config_path: str = None,
     ):
-        pred = self.model.predict(
+        tracker_prediction = self.model.tracker_predict(
             source=source,
             tracker_type=tracker_type,
             tracker_weight_path=tracker_weight_path,
             tracker_config_path=tracker_config_path,
         )
-        return pred
+        return tracker_prediction
 
 
-def main(
+def tracker_predict(
     config_path: str = "torchyolo/configs/default_config.yaml",
     model_type: str = "yolov5",
     model_path: str = "yolov5s.pt",
-    source: str = "../videos/test.mp4",
-    tracker_type: str = None,
+    source: str = "test.mp4",
+    tracker_type: str = "NORFAIR",
     tracker_weight_path: str = None,
-    tracker_config_path: str = None,
+    tracker_config_path: str = "torchyolo/configs/tracker/norfair_track.yaml",
 ):
     model = YoloHub(
         config_path=config_path,
         model_type=model_type,
         model_path=model_path,
     )
-    result = model.predict(
-        source=source,
-        tracker_type=tracker_type,
-        tracker_weight_path=tracker_weight_path,
-        tracker_config_path=tracker_config_path,
-    )
+
+    if tracker_type == "STRONGSORT":
+        result = model.tracker_predict(
+            source=source,
+            tracker_type=tracker_type,
+            tracker_weight_path=tracker_weight_path,
+            tracker_config_path=tracker_config_path,
+    )    
+    else:     
+        result = model.tracker_predict(
+            source=source,
+            tracker_type=tracker_type,
+            tracker_config_path=tracker_config_path,
+        )
+        
     return result
 
 
-if __name__ == "__main__":
-    Fire(main)
+def predict(
+    config_path: str = "torchyolo/configs/default_config.yaml",
+    model_type: str = "yolov5",
+    model_path: str = "yolov5s.pt",
+    source: str = "test.mp4",
+):
+    model = YoloHub(
+        config_path=config_path,
+        model_type=model_type,
+        model_path=model_path,
+    )
+
+    result = model.predict(source=source)
+    return result
