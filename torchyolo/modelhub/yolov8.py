@@ -4,8 +4,8 @@ from tqdm import tqdm
 
 from torchyolo.tracker.tracker_zoo import load_tracker
 from torchyolo.utils.dataset import LoadData, create_video_writer
-from torchyolo.utils.object_vis import video_vis
 from torchyolo.utils.load_config import load_parameters
+from torchyolo.utils.object_vis import video_vis
 
 
 class Yolov8DetectionModel:
@@ -28,6 +28,7 @@ class Yolov8DetectionModel:
     def load_model(self):
         try:
             from ultralytics import YOLO
+
             model = YOLO(self.model_path)
             model.conf = self.conf
             model.iou = self.iou
@@ -36,7 +37,35 @@ class Yolov8DetectionModel:
         except ImportError:
             raise ImportError('Please run "pip install ultralytics" ' "to install YOLOv8 first for YOLOv8 inference.")
 
-    def predict(
+    def predict(self, source:str):
+        dataset = LoadData(source)
+        video_writer = create_video_writer(video_path=source, output_path=self.output_path)
+
+        for img_src, img_path, vid_cap in tqdm(dataset):
+            results = self.model.predict(img_src, imgsz=self.image_size)
+            for image_id, prediction in enumerate(results[0].boxes.cpu().numpy()):
+                bbox, category_id, score = (
+                    prediction.xyxy,
+                    prediction.cls,
+                    prediction.conf,
+                )
+                category_name = self.model.model.names[int(category_id)]
+                label = f"{category_name} {float(score):.2f}"
+
+                if self.save or self.show:
+                    frame = video_vis(
+                        bbox=bbox[0],
+                        label=label,
+                        frame=img_src,
+                        object_id=int(category_id),
+                    )
+                if self.save:
+                    if source.endswith(".mp4"):
+                        video_writer.write(frame)
+                    else:
+                        cv2.imwrite("output.jpg", frame)
+    
+    def tracker_predict(
         self,
         source: str = None,
         tracker_type: str = None,
@@ -64,54 +93,28 @@ class Yolov8DetectionModel:
 
         for img_src, img_path, vid_cap in tqdm(dataset):
             results = self.model.predict(img_src, imgsz=self.image_size)
-            if tracker_type is not None:
-                for image_id, prediction in enumerate(results):
-                    boxes = prediction[:].boxes.xyxy
-                    score = prediction[:].boxes.conf
-                    category_id = prediction[:].boxes.cls
-                    dets = torch.cat((boxes, score.unsqueeze(1), category_id.unsqueeze(1)), dim=1)
-                    tracker_outputs[image_id] = tracker_module.update(dets.cpu(), img_src)
-                    for output in tracker_outputs[image_id]:
-                        bbox, track_id, category_id, score = (
-                            output[:4],
-                            int(output[4]),
-                            output[5],
-                            output[6],
-                        )
-                        category_name = self.model.model.names[int(category_id)]
-                        label = f"Id:{track_id} {category_name} {float(score):.2f}"
-
-                        if self.save or self.show:
-                            img_src = video_vis(
-                                bbox=bbox,
-                                label=label,
-                                frame=img_src,
-                                object_id=int(category_id),
-                            )
-                if self.save:
-                    video_writer.write(img_src)
-
-            else:
-
-                for image_id, prediction in enumerate(results[0].boxes.cpu().numpy()):
-
-                    bbox, category_id, score = (
-                        prediction.xyxy,
-                        prediction.cls,
-                        prediction.conf,
+            for image_id, prediction in enumerate(results):
+                boxes = prediction[:].boxes.xyxy
+                score = prediction[:].boxes.conf
+                category_id = prediction[:].boxes.cls
+                dets = torch.cat((boxes, score.unsqueeze(1), category_id.unsqueeze(1)), dim=1)
+                tracker_outputs[image_id] = tracker_module.update(dets.cpu(), img_src)
+                for output in tracker_outputs[image_id]:
+                    bbox, track_id, category_id, score = (
+                        output[:4],
+                        int(output[4]),
+                        output[5],
+                        output[6],
                     )
                     category_name = self.model.model.names[int(category_id)]
-                    label = f"{category_name} {float(score):.2f}"
+                    label = f"Id:{track_id} {category_name} {float(score):.2f}"
 
                     if self.save or self.show:
-                        frame = video_vis(
-                            bbox=bbox[0],
+                        img_src = video_vis(
+                            bbox=bbox,
                             label=label,
                             frame=img_src,
                             object_id=int(category_id),
                         )
-                    if self.save:
-                        if source.endswith(".mp4"):
-                            video_writer.write(frame)
-                        else:
-                            cv2.imwrite("output.jpg", frame)
+            if self.save:
+                video_writer.write(img_src)

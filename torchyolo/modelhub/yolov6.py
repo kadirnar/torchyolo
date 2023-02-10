@@ -4,7 +4,7 @@ from yolov6.core.inferer import Inferer
 from yolov6.helpers import check_img_size
 from yolov6.utils.nms import non_max_suppression
 
-from torchyolo.tracker.tracker_zoo import load_tracker
+from torchyolo.tracker.tracker_module import load_tracker_module
 from torchyolo.utils.coco_classes import COCO_CLASSES
 from torchyolo.utils.config_utils import get_config
 from torchyolo.utils.dataset import LoadData, create_video_writer
@@ -38,7 +38,7 @@ class Yolov6DetectionModel:
         try:
             from yolov6 import YOLOV6
 
-            model = YOLOV6(self.model_path, device=self.device, hf_model=self.hf_model)
+            model = YOLOV6(self.model_path, device=self.device)
             model.conf = self.conf
             model.iou = self.iou
             self.model = model.model
@@ -46,27 +46,49 @@ class Yolov6DetectionModel:
         except ImportError:
             raise ImportError('Please run "pip install yolov6detect" ' "to install YOLOv6 first for YOLOv6 inference.")
 
-    def predict(
+    def predict(self, source:str):
+        dataset = LoadData(source)
+        video_writer = create_video_writer(video_path=source, output_path=self.output_path)
+        imga_size = check_img_size(self.image_size, s=32)
+
+        for img_src, img_path, vid_cap in tqdm(dataset):
+            img, img_src = Inferer.precess_image(img_src, imga_size, 32, False)
+            img = img.to(self.device)
+            if len(img.shape) == 3:
+                img = img[None]
+                # expand for batch dim
+
+            pred_results = self.model(img)
+            det = non_max_suppression(pred_results, self.conf, self.iou, classes=None, agnostic=False, max_det=1000)[0]
+
+            det[:, :4] = Inferer.rescale(img.shape[2:], det[:, :4], img_src.shape).round()
+            for *xyxy, conf, cls in det:
+                label = f"{COCO_CLASSES[int(cls)]} {float(conf):.2f}"
+                frame = video_vis(
+                    bbox=xyxy,
+                    label=label,
+                    frame=img_src,
+                    object_id=int(cls),
+                )
+                if self.save:
+                    if source.endswith(".mp4"):
+                        video_writer.write(frame)
+                    else:
+                        cv2.imwrite("output.jpg", frame)
+
+    def tracker_predict(
         self,
         source: str = None,
         tracker_type: str = None,
         tracker_weight_path: str = None,
         tracker_config_path: str = None,
     ):
-        if tracker_type == "STRONGSORT":
-            tracker_module = load_tracker(
-                config_path=self.config_path,
-                tracker_type=tracker_type,
-                tracker_weight_path=tracker_weight_path,
-                tracker_config_path=tracker_config_path,
-            )
-
-        else:
-            tracker_module = load_tracker(
-                config_path=self.config_path,
-                tracker_type=tracker_type,
-                tracker_config_path=tracker_config_path,
-            )
+        tracker_module = load_tracker_module(
+            config_path=self.config_path,
+            tracker_type=tracker_type,
+            tracker_weight_path=tracker_weight_path,
+            tracker_config_path=tracker_config_path,
+        )
 
         tracker_outputs = [None]
         dataset = LoadData(source)
@@ -84,40 +106,24 @@ class Yolov6DetectionModel:
             det = non_max_suppression(pred_results, self.conf, self.iou, classes=None, agnostic=False, max_det=1000)[0]
 
             det[:, :4] = Inferer.rescale(img.shape[2:], det[:, :4], img_src.shape).round()
-
-            if tracker_type:
-                for image_index, result in enumerate([det]):
-                    tracker_outputs[image_index] = tracker_module.update(result.cpu(), img_src)
-                    for output in tracker_outputs[image_index]:
-                        bbox, track_id, category_id, score = (
-                            output[:4],
-                            int(output[4]),
-                            output[5],
-                            output[6],
-                        )
-                        category_name = COCO_CLASSES[int(category_id)]
-                        label = f"Id:{track_id} {category_name} {float(score):.2f}"
-
-                        if self.save or self.show:
-                            img_src = video_vis(
-                                bbox=bbox,
-                                label=label,
-                                frame=img_src,
-                                object_id=int(category_id),
-                            )
-                if self.save:
-                    video_writer.write(img_src)
-            else:
-                for *xyxy, conf, cls in det:
-                    label = f"{COCO_CLASSES[int(cls)]} {float(conf):.2f}"
-                    frame = video_vis(
-                        bbox=xyxy,
-                        label=label,
-                        frame=img_src,
-                        object_id=int(cls),
+            for image_index, result in enumerate([det]):
+                tracker_outputs[image_index] = tracker_module.update(result.cpu(), img_src)
+                for output in tracker_outputs[image_index]:
+                    bbox, track_id, category_id, score = (
+                        output[:4],
+                        int(output[4]),
+                        output[5],
+                        output[6],
                     )
-                    if self.save:
-                        if source.endswith(".mp4"):
-                            video_writer.write(frame)
-                        else:
-                            cv2.imwrite("output.jpg", frame)
+                    category_name = COCO_CLASSES[int(category_id)]
+                    label = f"Id:{track_id} {category_name} {float(score):.2f}"
+
+                    if self.save or self.show:
+                        img_src = video_vis(
+                            bbox=bbox,
+                            label=label,
+                            frame=img_src,
+                            object_id=int(category_id),
+                        )
+            if self.save:
+                video_writer.write(img_src)
