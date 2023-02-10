@@ -108,5 +108,3 @@ def predict(
 
     result = model.predict(source=source)
     return result
-
-predict()
