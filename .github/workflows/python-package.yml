@@ -70,7 +70,8 @@ jobs:
           pip install ultralytics
       - name: Unittest for Yolov5/6/7/8 models with TorchYolo package (CPU)
         run: |
-          pip install yolov5 yolov6detect yolov7detect ultralytics
+          pip install yolov5 yolov6detect yolov7detect
+          pip install ultralytics==8.0.10
       
       - name: Test TorchYolo CLI
         run: |
