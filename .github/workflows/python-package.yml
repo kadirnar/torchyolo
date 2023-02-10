@@ -78,4 +78,4 @@ jobs:
           torchyolo predict --config_path torchyolo/configs/default_config.yaml --model_type yolov5 --model_path yolov5n.pt --source data/highway.jpg
           torchyolo predict --config_path torchyolo/configs/default_config.yaml --model_type yolov6 --model_path yolov6s.pt --source data/highway.jpg
           torchyolo predict --config_path torchyolo/configs/default_config.yaml --model_type yolov7 --model_path yolov7-tiny.pt --source data/highway.jpg
-          torchyolo predict --config_path torchyolo/configs/default_config.yaml --model_type ultralytics --model_path yolov8s.pt --source data/highway.jpg
+          torchyolo predict --config_path torchyolo/configs/default_config.yaml --model_type yolov8 --model_path yolov8s.pt --source data/highway.jpg

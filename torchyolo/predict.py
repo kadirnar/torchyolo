@@ -96,9 +96,9 @@ def tracker_predict(
 
 def predict(
     config_path: str = "torchyolo/configs/default_config.yaml",
-    model_type: str = "yolov5",
-    model_path: str = "yolov5s.pt",
-    source: str = "test.mp4",
+    model_type: str = "yolov8",
+    model_path: str = "yolov8s.pt",
+    source: str = "../test.mp4",
 ):
     model = YoloHub(
         config_path=config_path,
@@ -108,3 +108,5 @@ def predict(
 
     result = model.predict(source=source)
     return result
+
+predict()
