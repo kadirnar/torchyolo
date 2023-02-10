@@ -32,7 +32,6 @@ class Yolov6DetectionModel:
         self.image_size = config.DETECTOR_CONFIG.IMAGE_SIZE
         self.save = config.DATA_CONFIG.SAVE
         self.show = config.DATA_CONFIG.SHOW
-        self.hf_model = config.DETECTOR_CONFIG.HUGGING_FACE_MODEL
         self.yolov6_yaml_file = config.DETECTOR_CONFIG.YOLOV6_YAML_FILE
 
     def load_model(self):

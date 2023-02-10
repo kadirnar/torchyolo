@@ -2,7 +2,7 @@ import cv2
 from tqdm import tqdm
 
 from torchyolo.tracker.tracker_zoo import load_tracker
-from torchyolo.utils.config_utils import get_config
+from torchyolo.utils.load_config import load_parameters
 from torchyolo.utils.dataset import LoadData, create_video_writer
 from torchyolo.utils.object_vis import video_vis
 
@@ -20,21 +20,15 @@ class Yolov7DetectionModel:
 
     def load_config(self, config_path: str):
         self.config_path = config_path
-        config = get_config(config_path)
-        self.output_path = config.DATA_CONFIG.OUTPUT_PATH
-        self.device = config.DETECTOR_CONFIG.DEVICE
-        self.conf = config.DETECTOR_CONFIG.CONF_TH
-        self.iou = config.DETECTOR_CONFIG.IOU_TH
-        self.image_size = config.DETECTOR_CONFIG.IMAGE_SIZE
-        self.save = config.DATA_CONFIG.SAVE
-        self.show = config.DATA_CONFIG.SHOW
-        self.hf_model = config.DETECTOR_CONFIG.HUGGING_FACE_MODEL
+        self.output_path, self.conf, self.iou, self.image_size, self.device, self.save, self.show = load_parameters(
+            self.config_path
+        )
 
     def load_model(self):
         try:
             import yolov7
 
-            model = yolov7.load(self.model_path, device=self.device, hf_model=self.hf_model)
+            model = yolov7.load(self.model_path, device=self.device)
             model.conf = self.conf
             model.iou = self.iou
             self.model = model
