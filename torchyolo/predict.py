@@ -83,14 +83,14 @@ def tracker_predict(
             tracker_type=tracker_type,
             tracker_weight_path=tracker_weight_path,
             tracker_config_path=tracker_config_path,
-    )    
-    else:     
+        )
+    else:
         result = model.tracker_predict(
             source=source,
             tracker_type=tracker_type,
             tracker_config_path=tracker_config_path,
         )
-        
+
     return result
 
 

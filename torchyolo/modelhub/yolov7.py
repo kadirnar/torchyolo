@@ -75,14 +75,14 @@ class Yolov7DetectionModel:
         tracker_weight_path: str = None,
         tracker_config_path: str = None,
     ):
-        
+
         tracker_module = load_tracker_module(
             config_path=self.config_path,
             tracker_type=tracker_type,
             tracker_weight_path=tracker_weight_path,
             tracker_config_path=tracker_config_path,
         )
-        
+
         tracker_outputs = [None]
         dataset = LoadData(source)
         video_writer = create_video_writer(video_path=source, output_path=self.output_path)

@@ -46,7 +46,7 @@ class Yolov6DetectionModel:
         except ImportError:
             raise ImportError('Please run "pip install yolov6detect" ' "to install YOLOv6 first for YOLOv6 inference.")
 
-    def predict(self, source:str):
+    def predict(self, source: str):
         dataset = LoadData(source)
         video_writer = create_video_writer(video_path=source, output_path=self.output_path)
         imga_size = check_img_size(self.image_size, s=32)
