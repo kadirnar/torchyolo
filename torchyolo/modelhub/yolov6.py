@@ -38,7 +38,7 @@ class Yolov6DetectionModel:
         try:
             from yolov6 import YOLOV6
 
-            model = YOLOV6(self.model_path, device=self.device, hf_model=self.hf_model)
+            model = YOLOV6(self.model_path, device=self.device)
             model.conf = self.conf
             model.iou = self.iou
             self.model = model.model
